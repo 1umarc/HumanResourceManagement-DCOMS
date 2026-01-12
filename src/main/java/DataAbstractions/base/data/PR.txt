@@ -1,0 +1,11 @@
+PRID;SupplierID;UserID;Status;
+1;1;bob;Completed;
+10;1;wow;Pending;
+2;2;bob;Rejected;
+3;3;bob;Approved;
+4;4;bob;Rejected;
+5;1;bob;Rejected;
+6;1;sam;Rejected;
+7;1;sam;Rejected;
+8;1;peter;Completed;
+9;1;peter;Rejected;

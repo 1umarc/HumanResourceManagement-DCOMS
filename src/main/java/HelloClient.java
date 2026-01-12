@@ -15,9 +15,12 @@ import java.rmi.Naming; // to skip step 1
 public class HelloClient {
     public static void main(String[] args) {
         try {
+            int port = Integer.parseInt(args[0]);
+
             // Step 1: Get reference to the RMI registry on the server
             // If client runs on the same machine as server, use "localhost" --> 1 tier
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099); // variable = "localhost" or IP or hostname
+            Registry registry = LocateRegistry.getRegistry("localhost", port); // variable = "localhost" or IP or hostname
+
 
             // Step 2: Look up the remote object by the same name used in server
             HelloService helloService = (HelloService) registry.lookup("HelloService"); // interface interface = (interface)--> () typecasting - interface treated as object
