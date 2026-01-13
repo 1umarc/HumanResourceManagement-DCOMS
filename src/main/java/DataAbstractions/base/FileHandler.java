@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DataAbstractions.base;
+package src.main.java.DataAbstractions.base;
 
 import java.io.BufferedReader;
 import java.util.List;
@@ -46,7 +46,7 @@ public class FileHandler implements DataWriter, DataReader {
     private String parseFilePath(String Type) {
         String currentWorkingDirectory = System.getProperty("user.dir");
         
-        return currentWorkingDirectory + "\\src\\main\\java\\DataAbstractions\\base\\data\\" + Type + ".txt";
+        return currentWorkingDirectory + "\\src\\main\\java\\src.main.java.DataAbstractions\\base\\data\\" + Type + ".txt";
     }
     
     private String parseData(List<String> rowData) { 

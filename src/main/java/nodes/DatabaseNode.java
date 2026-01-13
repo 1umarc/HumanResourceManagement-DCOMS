@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package rmi;
+package src.main.java.nodes;
 
 /**
  *
@@ -12,7 +12,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry; 
 import java.rmi.Naming; // to skip step 1
 
-public class HelloClient {
+public class DatabaseNode {
     public static void main(String[] args) {
         try {
             int port = Integer.parseInt(args[0]);
@@ -40,4 +40,5 @@ public class HelloClient {
         }
     }
 }
+
 

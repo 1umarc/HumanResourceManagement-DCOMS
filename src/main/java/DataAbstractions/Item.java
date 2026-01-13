@@ -2,17 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DataAbstractions;
+package src.main.java.DataAbstractions;
 
-//import DataAbstractions.base.DataReader;
-//import DataAbstractions.base.DataWriter;
-//import DataAbstractions.base.FileHandler;
+//import src.main.java.DataAbstractions.base.DataReader;
+//import src.main.java.DataAbstractions.base.DataWriter;
+//import src.main.java.DataAbstractions.base.FileHandler;
 //import java.util.ArrayList;
-import DataAbstractions.base.DataWriter;
+import src.main.java.DataAbstractions.base.DataWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import DataAbstractions.base.DataReader;
+import src.main.java.DataAbstractions.base.DataReader;
 
 /**
  *
