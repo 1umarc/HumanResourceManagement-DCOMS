@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package nodes;
+package src.main.java.nodes;
 
 import java.rmi.Remote; // Brings in the Remote interface
 import java.rmi.RemoteException; // RMI methods can fail due to network issues, so they must throw 

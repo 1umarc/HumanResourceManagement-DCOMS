@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DataAbstractions;
+package src.main.java.DataAbstractions;
 
-import DataAbstractions.base.DataWriter;
-import DataAbstractions.base.ItemFactory;
+import src.main.java.DataAbstractions.base.DataWriter;
+import src.main.java.DataAbstractions.base.ItemFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import DataAbstractions.base.DataReader;
+import src.main.java.DataAbstractions.base.DataReader;
 
 /**
  *
