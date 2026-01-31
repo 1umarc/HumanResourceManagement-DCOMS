@@ -4,6 +4,7 @@
  */
 package src.main.java.nodes;
 
+// MAIN.JAVA FOR REGISTRY
 /**
  *
  * @author luven
@@ -16,7 +17,7 @@ public class RegistryNode {
     public static void main(String[] args) {
         try {
             // Step 1: Create an instance of the implementation
-            HelloService helloService = new HelloServiceImpl(); // interface interface new implementation
+            Meekail helloService = new LogicInterface(); // interface interface new implementation
 
             int port = Integer.parseInt(args[0]);
 

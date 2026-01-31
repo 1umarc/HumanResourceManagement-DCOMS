@@ -4,6 +4,7 @@
  */
 package src.main.java.nodes;
 
+// MAIN.JAVA FOR CLIENT 
 /**
  *
  * @author luven
@@ -23,7 +24,7 @@ public class ClientNode {
 
 
             // Step 2: Look up the remote object by the same name used in server
-            HelloService helloService = (HelloService) registry.lookup("HelloService"); // interface interface = (interface)--> () typecasting - interface treated as object
+            Meekail helloService = (Meekail) registry.lookup("HelloService"); // interface interface = (interface)--> () typecasting - interface treated as object
                         // helloService --> STUB, implementing the interface
             // Step 3: Invoke remote method as if local object
             String response = helloService.sayHello("Umapathy"); // networking...

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package src.main.java.nodes;
+package RMI_Communication;
 
 /**
  *
@@ -12,10 +12,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject; // required functionality to receive remote calls
 
 // Step 1: Implement the remote interface 
-public class HelloServiceImpl extends UnicastRemoteObject implements HelloService { // extends for remote object, implements its interface
+public class DatabaseToServer extends UnicastRemoteObject implements Meekail { // extends for remote object, implements its interface
 
     // Step 2: Constructor must throw RemoteException as UnicastRemoteObject constructor does
-    protected HelloServiceImpl() throws RemoteException {
+    protected DatabaseToServer() throws RemoteException {
         super();
     }
     
