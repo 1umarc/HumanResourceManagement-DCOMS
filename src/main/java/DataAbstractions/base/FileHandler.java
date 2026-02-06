@@ -46,7 +46,7 @@ public class FileHandler implements DataWriter, DataReader {
     private String parseFilePath(String Type) {
         String currentWorkingDirectory = System.getProperty("user.dir");
         
-        return currentWorkingDirectory + "\\src\\main\\java\\src.main.java.DataAbstractions\\base\\data\\" + Type + ".txt";
+        return currentWorkingDirectory + "\\src\\main\\java\\resources" + Type + ".txt";
     }
     
     private String parseData(List<String> rowData) { 
