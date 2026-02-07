@@ -3,7 +3,7 @@
 set -e
 
 JAR="target/your-project-0.1.0-SNAPSHOT.jar"
-PKG="src.main.java.nodes"
+PKG="nodes"
 
 REGISTRY_PORT=5000
 SERVER_PORTS=(6000 6001 6002)

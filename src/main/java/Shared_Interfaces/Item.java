@@ -2,34 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package src.main.java.DataAbstractions;
+package Shared_Interfaces;
 
-//import src.main.java.DataAbstractions.base.DataReader;
-//import src.main.java.DataAbstractions.base.DataWriter;
-//import src.main.java.DataAbstractions.base.FileHandler;
-//import java.util.ArrayList;
-import src.main.java.DataAbstractions.base.DataWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import src.main.java.DataAbstractions.base.DataReader;
+import java.io.Serializable;
 
 /**
  *
  * @author JONATHAN
  */
-public abstract class Item {
+public class Item implements Serializable {
     protected List<String> Fields;
     protected List<String> Details;
     protected String Type;
-    protected DataWriter writer;
-    protected DataReader reader;
     
-    public Item (List<String> Details, String Type, DataReader reader, DataWriter writer) {
+    public Item (List<String> Details, List<String> Fields, String Type) {
         this.Type = Type;
-        this.reader = reader;
-        this.writer = writer;
-        this.Fields = this.reader.getFieldName();
+        this.Fields = Fields;
         this.Details = Details;
     }
     
@@ -97,15 +88,4 @@ public abstract class Item {
         this.Details.add(index, Value);
         return true;
     }
-    
-    public abstract List<Item> getUpwardsRelatedItems(String Type); // Get which PO the PR is in
-    
-    public abstract List<Item> getDownwardsRelatedItems(String Type); // Get List of PR of a PO
-
-    public abstract Boolean addRelatedItem(Item newItem);
-
-    public abstract Boolean deleteRelatedItem(Item newItem);
-    
-    public abstract Boolean CanBeDeleted();
-    
 }

@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package src.main.java.DataAbstractions;
+package Server.DataLogic;
 
-import src.main.java.DataAbstractions.base.DataWriter;
-import src.main.java.DataAbstractions.base.ItemFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,7 +11,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import src.main.java.DataAbstractions.base.DataReader;
+import Shared_Interfaces.DatabaseToServer.DatabaseInterface;
+import java.rmi.RemoteException;
+import Shared_Interfaces.Item;
 
 /**
  *
@@ -22,19 +22,14 @@ import src.main.java.DataAbstractions.base.DataReader;
 public class ItemCollection {
     private final List<String> FieldNames;
     private final List<Item> ItemList;
-    private final DataReader reader;
-    private final DataWriter writer;
-    private final ItemFactory Factory;
+    private final DatabaseInterface Database;
     private final String Type;
 
-    public ItemCollection(List<Item> newItemList, DataReader newReader, DataWriter newWriter, ItemFactory newFactory, String Type) {
+    public ItemCollection(List<Item> newItemList, DatabaseInterface newDatabase, String Type) throws RemoteException {
         this.ItemList = newItemList;
-        this.reader = newReader;
-        this.writer = newWriter;
-        this.FieldNames = this.reader.getFieldName();
-        this.Factory = newFactory;
+        this.Database = newDatabase;
+        this.FieldNames = this.Database.getFieldName();
         this.Type = Type;
-        
     }
     
     @Override
@@ -48,16 +43,16 @@ public class ItemCollection {
         return Output;
     }
     
-    public void UpdateFile() {
+    public void UpdateFile() throws RemoteException {
         List<List<String>> Data = new ArrayList<>(); // Turn Item Into Writable Format
         
         this.ItemList.forEach((Item currentItem) -> {
             Data.add(Arrays.asList(currentItem.getDetails()));
         });
         
-        this.writer.setFileName(this.Type);
+        this.Database.setFileName(this.Type);
         
-        this.writer.writeData(Data);
+        this.Database.writeData(Data);
     }
     
     public int getCollectionSize() {
@@ -118,7 +113,7 @@ public class ItemCollection {
         return -1;
     }
     
-    public Item createItem(String[] Details) {
+    public Item createItem(String[] Details) throws RemoteException {
 //        Check If Data Size Matches
 
         Boolean SameSize = Details.length == this.FieldNames.size();
@@ -130,7 +125,7 @@ public class ItemCollection {
         
         List<String> MutableListOfDetails = new ArrayList<>(Arrays.asList(Details));
         
-        Item newItem = this.Factory.createItem(MutableListOfDetails, this.Type);
+        Item newItem = new Item(MutableListOfDetails, this.FieldNames, this.Type);
         
         this.ItemList.add(newItem);
         this.UpdateFile();
@@ -138,7 +133,7 @@ public class ItemCollection {
         return newItem;
     }
     
-    public Boolean removeItem(Item ItemInstance) {
+    public Boolean removeItem(Item ItemInstance) throws RemoteException {
         int index = this.getItemIndex(ItemInstance);
 
         if (index == -1) {
@@ -148,7 +143,7 @@ public class ItemCollection {
         Item currentItem = this.ItemList.get(index);
         
 //        If Item Has Any Relationship or Item has Certain Status Then No Delete
-        if (!currentItem.CanBeDeleted()) { 
+        if (!this.CanBeDeleted(currentItem.getID())) { 
             return false;
         }
         
@@ -158,7 +153,7 @@ public class ItemCollection {
         return true;
     }
     
-    public Boolean removeItem(String ID) {
+    public Boolean removeItem(String ID) throws RemoteException {
         int index = this.getItemIndex(ID);
 
         if (index == -1) {
@@ -168,7 +163,7 @@ public class ItemCollection {
         Item currentItem = this.ItemList.get(index);
         
 //        If Item Has Any Relationship or Item has Certain Status Then No Delete
-        if (!currentItem.CanBeDeleted()) { 
+        if (!this.CanBeDeleted(currentItem.getID())) { 
             return false;
         }
         
@@ -205,6 +200,26 @@ public class ItemCollection {
         }
         
         return this.ItemList.get(index);
+    }
+
+    private Boolean CanBeDeleted(String ID) throws RemoteException {
+        switch (this.Type) {
+            case "User" -> {
+                List<Item> ItemList = new ArrayList<>();
+                        
+                this.Database.setFileName("LeaveApplication");
+                
+                List<List<String>> ItemDetailList = this.Database.FitlerData("UserID", ID);
+                
+                return ItemDetailList.isEmpty();
+            }
+            case "LeaveApplication" -> {
+                return true;
+            }
+            default -> {
+                return true;
+            }
+        }
     }
     
     public List<Item> filter(List<String> Fields, List<String> Values) { // Field and Values Match 1 to 1 -> index 0 with index 0, etc

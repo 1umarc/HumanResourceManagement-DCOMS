@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package src.main.java.nodes;
+package nodes;
 
 // MAIN.JAVA FOR REGISTRY
 /**
@@ -15,23 +15,23 @@ import java.rmi.Naming; // alternative & more direct, dont need to locate regist
 
 public class RegistryNode {
     public static void main(String[] args) {
-        try {
-            // Step 1: Create an instance of the implementation
-            Meekail helloService = new LogicInterface(); // interface interface new implementation
+        // try {
+        //     // Step 1: Create an instance of the implementation
+        //     Meekail helloService = new LogicInterface(); // interface interface new implementation
 
-            int port = Integer.parseInt(args[0]);
+        //     int port = Integer.parseInt(args[0]);
 
-            // Step 2: Start (or get) the RMI registry on port 1099
-            Registry registry = LocateRegistry.createRegistry(port); // default RMI port, later seperate rmi registry process is used
+        //     // Step 2: Start (or get) the RMI registry on port 1099
+        //     Registry registry = LocateRegistry.createRegistry(port); // default RMI port, later seperate rmi registry process is used
 
-            // Step 3: Bind the remote object to a name in the registry
-            registry.rebind("HelloService", helloService);  // name of object ref (client looks up), remote object
+        //     // Step 3: Bind the remote object to a name in the registry
+        //     registry.rebind("HelloService", helloService);  // name of object ref (client looks up), remote object
             
-            //Naming.rebind("rmi://localhost/AddService", helloService); --> assumes RMI registry already running on the default port 1099
+        //     //Naming.rebind("rmi://localhost/AddService", helloService); --> assumes RMI registry already running on the default port 1099
 
-            System.out.println("RMI Server is ready.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //     System.out.println("RMI Server is ready.");
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
     }
 }

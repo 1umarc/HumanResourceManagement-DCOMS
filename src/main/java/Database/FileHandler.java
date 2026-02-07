@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package src.main.java.DataAbstractions.base;
+package Database;
 
 import java.io.BufferedReader;
 import java.util.List;
@@ -14,33 +14,23 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.io.FileReader;
 import java.util.Iterator;
+import Shared_Interfaces.DatabaseToServer.DatabaseInterface;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
  * @author JONATHAN
  */
-public class FileHandler implements DataWriter, DataReader {
+public class FileHandler extends UnicastRemoteObject implements DatabaseInterface {
     private String FileName;
     private FileWriter writer;
     private BufferedReader reader;
     private List<List<String>> data = new ArrayList<>();
     private List<String> fields = new ArrayList<>();
-    private final List<String> Permissions;
-    
-    public FileHandler(String FileName) {
-        this.Permissions = new ArrayList<>();
-        this.Permissions.add(FileName);
-        
-        this.setFileName(FileName);
-    }
-    
-    public FileHandler(String FileName, List<String> Permissions) {
-        this.Permissions = Permissions;
-        this.setFileName(FileName);
-    }
-    
-    public FileHandler(List<String> Permissions) {
-        this.Permissions = Permissions;
+
+    protected FileHandler() throws RemoteException {
+        super();
     }
     
     private String parseFilePath(String Type) {
@@ -101,10 +91,6 @@ public class FileHandler implements DataWriter, DataReader {
 
     @Override
     public final Boolean setFileName(String FileName) {
-        if (!this.Permissions.contains(FileName)) {
-            return false;
-        }
-        
         try {
             String FilePath = this.parseFilePath(FileName);
             File file = new File(FilePath);
@@ -295,7 +281,6 @@ public class FileHandler implements DataWriter, DataReader {
     
     @Override
     public List<String> getCompositeRow(List<String> Keys) {
-        
         int iterator = 0;
         for (List<String> rowData : this.data) {
             int numKeysFound = 0;
