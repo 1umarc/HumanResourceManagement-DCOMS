@@ -12,10 +12,18 @@ import java.util.List;
 
 // Step 1: Define the remote interface
 public interface LeaveInterface extends Remote { // ALL Methods Implementing this should be synchronized?
-    public List<Item> viewLeaves(String employeeID) throws RemoteException;
+
+    // Used By Everyone
+    public List<Item> viewUserLeaves(String employeeID) throws RemoteException;
     public Item applyLeave(Item employeeID, List<String> Details) throws RemoteException;
-    public boolean editLeave(Item LeaveApplication) throws RemoteException;
-    public boolean deleteLeave(Item LeaveApplication) throws RemoteException;
+    public Boolean deleteLeave(Item LeaveApplication) throws RemoteException;
+
+    // Used By HR Staff
+    public List<Item> viewAllLeaves() throws RemoteException;
+    public Boolean editRemainingLeaves(Item LeaveApplication) throws RemoteException; // Get User from LeaveApplication then Subtract
+    public Boolean approveLeave(Item LeaveApplication, String Reason) throws RemoteException;
+    public Boolean rejectLeave(Item LeaveApplication, String Reason) throws RemoteException;
+    public String GenerateReport() throws RemoteException; // Already Pretty Formated
 }
 
 

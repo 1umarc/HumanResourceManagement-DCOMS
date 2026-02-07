@@ -29,7 +29,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     private List<List<String>> data = new ArrayList<>();
     private List<String> fields = new ArrayList<>();
 
-    protected FileHandler() throws RemoteException {
+    public FileHandler() throws RemoteException {
         super();
     }
     
