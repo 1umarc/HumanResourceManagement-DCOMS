@@ -8,6 +8,7 @@ package RMI_Communication;
  *
  * @author luven
  */
+import Server.Meekail;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject; // required functionality to receive remote calls
 
