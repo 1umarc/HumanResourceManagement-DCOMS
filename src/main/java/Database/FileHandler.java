@@ -90,7 +90,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public final Boolean setFileName(String FileName) {
+    public synchronized final Boolean setFileName(String FileName) {
         try {
             String FilePath = this.parseFilePath(FileName);
             File file = new File(FilePath);
@@ -109,12 +109,12 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
     
     @Override
-    public String getFileName() {
+    public synchronized String getFileName() {
         return this.FileName;
     }
 
     @Override
-    public Boolean writeData(List<List<String>> Data) {
+    public synchronized synchronized Boolean writeData(List<List<String>> Data) {
         Data = this.sortData(Data);
         
         try {
@@ -139,14 +139,14 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public Boolean appendData(List<String> Data) {
+    public synchronized Boolean appendData(List<String> Data) {
         this.data.add(Data);
         
         return this.writeData(this.data);
     }
 
     @Override
-    public Boolean updateData(List<String> Data) {
+    public synchronized Boolean updateData(List<String> Data) {
         int index = 0;
         Iterator<List<String>> iter = this.data.iterator();
 
@@ -165,7 +165,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public Boolean deleteData(String ID) {
+    public synchronized Boolean deleteData(String ID) {
         int index = 0;
         Iterator<List<String>> iter = this.data.iterator();
 
@@ -183,7 +183,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public Boolean updateCompositeData(List<String> Data, List<String> Keys) {
+    public synchronized Boolean updateCompositeData(List<String> Data, List<String> Keys) {
         int index = 0;
         Iterator<List<String>> iter = this.data.iterator();
 
@@ -209,7 +209,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public Boolean deleteCompositeData(List<String> Keys ) {
+    public synchronized Boolean deleteCompositeData(List<String> Keys ) {
         Iterator<List<String>> iter = this.data.iterator();
         
         while (iter.hasNext()) {
@@ -264,12 +264,12 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public List<List<String>> getData() {
+    public synchronized List<List<String>> getData() {
         return this.data;
     }
 
     @Override
-    public List<String> getRow(String Key) {
+    public synchronized List<String> getRow(String Key) {
         for (List<String> rowData : this.data) {
             if (rowData.get(0).equals(Key)) {
                 return rowData;
@@ -280,7 +280,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
     
     @Override
-    public List<String> getCompositeRow(List<String> Keys) {
+    public synchronized List<String> getCompositeRow(List<String> Keys) {
         int iterator = 0;
         for (List<String> rowData : this.data) {
             int numKeysFound = 0;
@@ -301,7 +301,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public List<String> getColumn(String wantedField) {
+    public synchronized List<String> getColumn(String wantedField) {
         int index = this.getFieldIndex(wantedField);
         List<String> columnData = new ArrayList<>();
         
@@ -319,7 +319,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public List<String> getFieldName() {
+    public synchronized List<String> getFieldName() {
         return this.fields;
 
     }
@@ -339,7 +339,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public List<List<String>> FitlerData(List<String> Fields, List<String> Values) {
+    public synchronized List<List<String>> FitlerData(List<String> Fields, List<String> Values) {
         List<List<String>> filteredData = new ArrayList<>();
         
         List<Integer> indexes = new ArrayList<>();
@@ -373,7 +373,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
     
     @Override
-    public List<List<String>> FitlerData(String Fields, List<String> Values) {
+    public synchronized List<List<String>> FitlerData(String Fields, List<String> Values) {
         List<List<String>> filteredData = new ArrayList<>();
         
         List<String> ColumnData = this.getColumn(Fields);
@@ -388,7 +388,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
     
     @Override
-    public List<List<String>> FitlerData(String Fields, String Values) {
+    public synchronized List<List<String>> FitlerData(String Fields, String Values) {
         List<List<String>> filteredData = new ArrayList<>();
         
         List<String> ColumnData = this.getColumn(Fields);
@@ -402,7 +402,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
         return filteredData;
     }
     
-    public int size() {
+    public synchronized int size() {
         return this.data.size();
     }
 }

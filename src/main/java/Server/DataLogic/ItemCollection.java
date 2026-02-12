@@ -33,7 +33,7 @@ public class ItemCollection {
     }
     
     @Override
-    public String toString() {
+    public synchronized String toString() {
         String Output = "";
         
         int count = 1;
@@ -43,7 +43,7 @@ public class ItemCollection {
         return Output;
     }
     
-    public void UpdateFile() throws RemoteException {
+    public synchronized void UpdateFile() throws RemoteException {
         List<List<String>> Data = new ArrayList<>(); // Turn Item Into Writable Format
         
         this.ItemList.forEach((Item currentItem) -> {
@@ -55,11 +55,11 @@ public class ItemCollection {
         this.Database.writeData(Data);
     }
     
-    public int getCollectionSize() {
+    public synchronized int getCollectionSize() {
         return this.ItemList.size();
     }
     
-    public Boolean CheckItemInCollection(Item ItemInstance) {
+    public synchronized Boolean CheckItemInCollection(Item ItemInstance) {
         for (Item CurrentItem : this.ItemList) {
             Boolean SameDetails = Arrays.equals(CurrentItem.getDetails(), ItemInstance.getDetails());
             
@@ -71,7 +71,7 @@ public class ItemCollection {
         return false;
     }
     
-    public Boolean CheckItemInCollection(String[] Details) {
+    public synchronized Boolean CheckItemInCollection(String[] Details) {
         for (Item CurrentItem : this.ItemList) {
             Boolean SameDetails = Arrays.equals(CurrentItem.getDetails(), Details);
             
@@ -113,7 +113,7 @@ public class ItemCollection {
         return -1;
     }
     
-    public Item createItem(String[] Details) throws RemoteException {
+    public synchronized Item createItem(String[] Details) throws RemoteException {
 //        Check If Data Size Matches
 
         Boolean SameSize = Details.length == this.FieldNames.size();
@@ -133,7 +133,7 @@ public class ItemCollection {
         return newItem;
     }
     
-    public Boolean removeItem(Item ItemInstance) throws RemoteException {
+    public synchronized Boolean removeItem(Item ItemInstance) throws RemoteException {
         int index = this.getItemIndex(ItemInstance);
 
         if (index == -1) {
@@ -153,7 +153,7 @@ public class ItemCollection {
         return true;
     }
     
-    public Boolean removeItem(String ID) throws RemoteException {
+    public synchronized Boolean removeItem(String ID) throws RemoteException {
         int index = this.getItemIndex(ID);
 
         if (index == -1) {
@@ -173,7 +173,7 @@ public class ItemCollection {
         return true;
     }
     
-    public List<String> getColumn(String Field) {
+    public synchronized List<String> getColumn(String Field) {
         List<String> ColumnData = new ArrayList<>();
         
         for (Item CurrentItem : this.ItemList) {
@@ -184,15 +184,15 @@ public class ItemCollection {
         return ColumnData;
     }
     
-    public List<String> getFieldNames() {
+    public synchronized List<String> getFieldNames() {
         return new ArrayList<>(this.FieldNames);
     }
     
-    public List<Item> getAll() {
+    public synchronized List<Item> getAll() {
         return new ArrayList<>(this.ItemList);
     }
 
-    public Item getItem(String ID) {
+    public synchronized Item getItem(String ID) {
         int index = this.getItemIndex(ID);
         
         if (index == -1) {
@@ -222,7 +222,7 @@ public class ItemCollection {
         }
     }
     
-    public List<Item> filter(List<String> Fields, List<String> Values) { // Field and Values Match 1 to 1 -> index 0 with index 0, etc
+    public synchronized List<Item> filter(List<String> Fields, List<String> Values) { // Field and Values Match 1 to 1 -> index 0 with index 0, etc
         List<Integer> indexes = new ArrayList<>();
         
 //        Creates a List of n 1s where n is the size of the collection
@@ -258,7 +258,7 @@ public class ItemCollection {
         return FilteredItemList;
     }   
     
-    public List<Item> filter(String Field, List<String> Values) {
+    public synchronized List<Item> filter(String Field, List<String> Values) {
         List<Item> FilteredItemList = new ArrayList<>();
         
         List<String> ColumnData = this.getColumn(Field);
@@ -274,7 +274,7 @@ public class ItemCollection {
     }
     
     
-    public List<Item> filter(String Field, String Value) {
+    public synchronized List<Item> filter(String Field, String Value) {
         List<Item> FilteredItemList = new ArrayList<>();
         
         List<String> ColumnData = this.getColumn(Field);
@@ -288,19 +288,19 @@ public class ItemCollection {
         return FilteredItemList;
     }
     
-    public List<Item> filter(Predicate<Item> lambda) {
+    public synchronized List<Item> filter(Predicate<Item> lambda) {
         List<Item> SortedList = new ArrayList<>(this.ItemList);
         SortedList.stream().filter(lambda).collect(Collectors.toList());
         return SortedList;
     }
     
-    public List<Item> getSortedItems(Comparator<Item> lambda) {
+    public synchronized List<Item> getSortedItems(Comparator<Item> lambda) {
         List<Item> SortedList = new ArrayList<>(this.ItemList);
         SortedList.sort(lambda);
         return SortedList;
     }
     
-    public Boolean isEmpty() {
+    public synchronized Boolean isEmpty() {
         return this.ItemList.isEmpty();
     }
     
