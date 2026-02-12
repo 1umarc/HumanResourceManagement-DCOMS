@@ -9,14 +9,17 @@ package nodes;
  *
  * @author luven
  */
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.Naming; // alternative & more direct, dont need to locate registry with port (step 2), just locate directly with name
+import Shared_Interfaces.RMIBind;
+import Shared_Interfaces.ServerToClient.AuthInterface;
+import Server.Chunkit;
+
 
 public class ServerNode {
     public static void main(String[] args) {
         try {
-       
+            Chunkit trial = new Chunkit();
+
+            trial.login("a", "b");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -17,7 +17,7 @@ import java.rmi.server.UnicastRemoteObject; // required functionality to receive
 public class Meekail extends UnicastRemoteObject { // extends for remote object, implements its interface
 
     // Step 2: Constructor must throw RemoteException as UnicastRemoteObject constructor does
-    protected Meekail() throws RemoteException {
+    public Meekail() throws RemoteException {
         super();
     }
 

@@ -36,7 +36,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     private String parseFilePath(String Type) {
         String currentWorkingDirectory = System.getProperty("user.dir");
         
-        return currentWorkingDirectory + "\\src\\main\\java\\resources" + Type + ".txt";
+        return currentWorkingDirectory + "/src/main/java/Database/resources/" + Type + ".txt";
     }
     
     private String parseData(List<String> rowData) { 
@@ -103,7 +103,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
             System.out.println("File Not Found!");
             return false;
         }
-        
+
         this.getFieldAndData();
         return true;
     }
@@ -114,7 +114,7 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public synchronized synchronized Boolean writeData(List<List<String>> Data) {
+    public synchronized Boolean writeData(List<List<String>> Data) {
         Data = this.sortData(Data);
         
         try {

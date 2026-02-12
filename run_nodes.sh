@@ -39,11 +39,15 @@ for PORT in "${DATABASE_SERVER_PORTS[@]}"; do
   PIDS+=($!)
 done
 
+sleep 5
+
 echo "Starting servers..."
 for PORT in "${SERVER_PORTS[@]}"; do
   java -cp "$JAR" "$PKG.ServerNode" "$REGISTRY_PORT" "$PORT" &
   PIDS+=($!)
 done
+
+sleep 5
 
 echo "Starting clients..."
 for ((i=0; i<CLIENT_COUNT; i++)); do

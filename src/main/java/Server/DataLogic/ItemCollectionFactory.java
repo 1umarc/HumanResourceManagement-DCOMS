@@ -17,7 +17,7 @@ import Shared_Interfaces.Item;
  */
 public class ItemCollectionFactory {
     public static ItemCollection createItemCollection(String Type) throws RemoteException {
-        DatabaseInterface Database = RMIBind.getService("FileHandler", 1099); // Call from RMI
+        DatabaseInterface Database = RMIBind.getService("DatabaseInterface", 1099); // Call from RMI
 
         Database.setFileName(Type);
         
@@ -25,7 +25,7 @@ public class ItemCollectionFactory {
         List<String> Fields = Database.getFieldName();
         
         List<Item> ItemList = new ArrayList<>();
-        
+
         for (List<String> RowData : ItemDetailList) {
             Item newItem = new Item(RowData, Fields, Type);
 
