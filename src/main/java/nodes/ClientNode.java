@@ -18,7 +18,9 @@ import Shared_Interfaces.ServerToClient.*;
 public class ClientNode {
     public static void main(String[] args) {
         try {
-        
+            while(true){
+                
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

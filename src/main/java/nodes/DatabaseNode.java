@@ -21,6 +21,9 @@ public class DatabaseNode {
             DatabaseInterface Database = new FileHandler();
 
             RMIBind.BindService(Database, "DatabaseInterface", port);
+            while(true){
+                
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

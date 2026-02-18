@@ -22,6 +22,10 @@ public class ServerNode {
             Chunkit trial = new Chunkit(port);
 
             trial.login("a", "b");
+
+            while(true){
+                
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

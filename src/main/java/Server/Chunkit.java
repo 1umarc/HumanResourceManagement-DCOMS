@@ -19,7 +19,7 @@ import Shared_Interfaces.Item;
 
 // Step 1: Implement the remote interface 
 public class Chunkit extends UnicastRemoteObject implements AuthInterface { // extends for remote object, implements its interface
-    private final int port;
+     private final int port;
 
 
     // Step 2: Constructor must throw RemoteException as UnicastRemoteObject constructor does

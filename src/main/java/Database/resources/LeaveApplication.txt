@@ -1,7 +1,1 @@
-UserID;FirstName;LastName;Password;Role;
-bob;bob;bob;bob;admin;
-ferb;ferb;ferb;ferb;FM;
-ivan;ivan;ivan;ivan;IM;
-peter;peter;peter;peter;PM;
-sam;sam;sam;sam;SM;
-wow;wow;wow;wow;SM;
+UserID;ApplicationDate;StarDate;NumberOfDays;Status;

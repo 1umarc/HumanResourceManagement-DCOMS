@@ -19,6 +19,10 @@ public class RegistryNode {
             int port = Integer.parseInt(args[0]);
             Registry registry = LocateRegistry.createRegistry(port); // default RMI port, later seperate rmi registry process is used
             System.out.println("RMI Server is ready.");
+
+            while(true){
+                
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
