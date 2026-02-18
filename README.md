@@ -9,7 +9,7 @@ Install Maven
 
 `./run_nodes.sh`
 
-The Script has a temporary fix to fully kill the running java processes (only on start up of the script so the processes will still be running but you could kill it after you finish running the project with `pkill java`)
+The Script has a temporary fix to fully kill the running java processes (only on start up of the script so the processes will still be running but you could kill it after you finish running the project with `pkill java` or `ps` then `kill ###` where `###` is the Process ID (PID))
 
 ### Windows (Terminal)
 Install Maven (Online)
@@ -22,8 +22,11 @@ Starts up the Registry Node (Max 1)
 
 Wait for Registry Node to start up Before The Rest
 
-Starts up Server Nodes (New Terminal For Every New Node - Change the server port `####` ex. 6000 for each)
-`mvn exec:java -Dexec.mainClass=nodes.ServerNode -Dexec.args="5000 ####"`
+Starts up Database Node (New Terminal - Max 1)
+`mvn exec:java -Dexec.mainClass=nodes.ServerNode '-Dexec.args="5000"`
+
+Starts up Server Nodes (New Terminal For Every New Node)
+`mvn exec:java -Dexec.mainClass=nodes.ServerNode -Dexec.args="5000"`
 
 Starts up Client Nodes (New Terminal For Every New Node)
 `mvn exec:java -Dexec.mainClass=nodes.ClientNode -Dexec.args="5000"`

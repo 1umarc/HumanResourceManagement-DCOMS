@@ -19,15 +19,18 @@ import Shared_Interfaces.Item;
 
 // Step 1: Implement the remote interface 
 public class Chunkit extends UnicastRemoteObject implements AuthInterface { // extends for remote object, implements its interface
+    private final int port;
+
 
     // Step 2: Constructor must throw RemoteException as UnicastRemoteObject constructor does
-    public Chunkit() throws RemoteException {
+    public Chunkit(int port) throws RemoteException {
         super();
+        this.port = port;
     }
 
     @Override
     public Item login(String username, String password) throws RemoteException {
-        ItemCollection Items = ItemCollectionFactory.createItemCollection("User");
+        ItemCollection Items = ItemCollectionFactory.createItemCollection("User", this.port);
 
         System.out.println(Items);
 

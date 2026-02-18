@@ -16,8 +16,8 @@ import Shared_Interfaces.Item;
  * @author JONATHAN
  */
 public class ItemCollectionFactory {
-    public static ItemCollection createItemCollection(String Type) throws RemoteException {
-        DatabaseInterface Database = RMIBind.getService("DatabaseInterface", 1099); // Call from RMI
+    public static ItemCollection createItemCollection(String Type, int port) throws RemoteException {
+        DatabaseInterface Database = RMIBind.getService("DatabaseInterface", port); // Call from RMI
 
         Database.setFileName(Type);
         
