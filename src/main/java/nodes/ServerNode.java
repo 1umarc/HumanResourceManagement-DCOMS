@@ -17,7 +17,9 @@ import Server.Chunkit;
 public class ServerNode {
     public static void main(String[] args) {
         try {
-            Chunkit trial = new Chunkit();
+            int port = Integer.parseInt(args[0]);
+
+            Chunkit trial = new Chunkit(port);
 
             trial.login("a", "b");
         } catch (Exception e) {
