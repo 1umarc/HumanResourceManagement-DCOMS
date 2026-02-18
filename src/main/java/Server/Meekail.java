@@ -106,11 +106,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     }
 
     @Override
-
     public int applyLA(List<String> Details) throws RemoteException {
-        //UserID;LeaveType;ApplicationDate;StarDate;NumberOfDays;ReasonForLeave;
-        //Check if userID is valid
-        //check if the user has enough remaining leaves of the type they are applying for
         
         ItemCollection UserItems = ItemCollectionFactory.createItemCollection("User",port);
         Item user = UserItems.getItem(Details.get(0));
@@ -153,11 +149,6 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     }
 
-    public Boolean updateLA(String LAID, List<String> Details) throws RemoteException {
-    
-        return null;
-    }
-
     @Override
     public Boolean deleteLA(String LAID) throws RemoteException {
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
@@ -170,6 +161,11 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
         }
 
         return AllLeaves.removeItem(LAID);
+    }
+
+     public Boolean updateLA(String LAID, List<String> Details) throws RemoteException {
+    
+        return null;
     }
 
     @Override

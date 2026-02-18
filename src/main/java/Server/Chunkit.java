@@ -9,6 +9,7 @@ package Server;
  *
  * @author luven
  */
+import java.util.List;
 import Shared_Interfaces.ServerToClient.ProfileInterface;
 import Shared_Interfaces.ServerToClient.AuthInterface;
 import java.rmi.RemoteException;
@@ -18,7 +19,7 @@ import Server.DataLogic.ItemCollectionFactory;
 import Shared_Interfaces.Item;
 
 // Step 1: Implement the remote interface 
-public class Chunkit extends UnicastRemoteObject implements AuthInterface { // extends for remote object, implements its interface
+public class Chunkit extends UnicastRemoteObject implements AuthInterface, ProfileInterface { // extends for remote object, implements its interface
      private final int port;
 
 
@@ -41,5 +42,29 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface { // e
     public void logout(String sessionToken) throws RemoteException {
 
     } // Luven's Logout Session Tracking Thing?
+
+    @Override
+    public List<Item> viewUserProfile(String employeeID) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Boolean editProfile(Item User) throws RemoteException {
+        return null;
+    }
+    
+    @Override
+    public List<Item> viewAllProfiles() throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Boolean deleteProfile(Item User) throws RemoteException {    
+        return null;
+    }   
+
+
+
+
 
 }

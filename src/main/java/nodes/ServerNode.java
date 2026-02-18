@@ -11,7 +11,11 @@ package nodes;
  */
 import Shared_Interfaces.RMIBind;
 import Shared_Interfaces.ServerToClient.AuthInterface;
+import Shared_Interfaces.ServerToClient.LeaveInterface;
+import Shared_Interfaces.ServerToClient.ProfileInterface;
+
 import Server.Chunkit;
+import Server.Meekail;
 
 
 public class ServerNode {
@@ -19,10 +23,14 @@ public class ServerNode {
         try {
             int port = Integer.parseInt(args[0]);
 
-            Chunkit trial = new Chunkit(port);
+            LeaveInterface leaveInterface = new Meekail(port);
+            AuthInterface authInterface = new Chunkit(port);
+            ProfileInterface profileInterface = new Chunkit(port);
 
-            trial.login("a", "b");
-
+            RMIBind.BindService(leaveInterface, "LeaveInterface", port);
+            RMIBind.BindService(authInterface, "AuthInterface", port);
+            RMIBind.BindService(profileInterface, "ProfileInterface", port);
+            
             while(true){
                 
             }
