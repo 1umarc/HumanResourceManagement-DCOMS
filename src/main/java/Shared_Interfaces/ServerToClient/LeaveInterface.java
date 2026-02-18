@@ -14,15 +14,19 @@ import java.util.List;
 public interface LeaveInterface extends Remote { // ALL Methods Implementing this should be synchronized?
 
     // Used By Everyone
-    public List<Item> viewUserLeaves(String employeeID) throws RemoteException;
-    public Item applyLeave(Item employeeID, List<String> Details) throws RemoteException;
-    public Boolean deleteLeave(Item LeaveApplication) throws RemoteException;
+    public List<String> viewUserLeaves(String employeeID) throws RemoteException; // Returns Number of leave used and remaining for a specific employee [ALUsed;ALRemaining;MLUsed;MLRemaining] [0;30;0;30]
+    public List<Item> viewUserPendingLA(String employeeID) throws RemoteException;
+    public List<Item> viewUserLA(String employeeID) throws RemoteException;
+    public Boolean applyLA(List<String> Details) throws RemoteException;
+    public Boolean updateLA(String LAID, List<String> Details) throws RemoteException;
+    public Boolean deleteLA(String LAID) throws RemoteException;
 
     // Used By HR Staff
-    public List<Item> viewAllLeaves() throws RemoteException;
-    public Boolean editRemainingLeaves(Item LeaveApplication) throws RemoteException; // Get User from LeaveApplication then Subtract
-    public Boolean approveLeave(Item LeaveApplication, String Reason) throws RemoteException;
-    public Boolean rejectLeave(Item LeaveApplication, String Reason) throws RemoteException;
+    public List<Item> viewLA() throws RemoteException;
+    public List<Item> viewPendingLA() throws RemoteException;
+    public Boolean editRemainingLeaves(String LAID, String LeaveType, int LeaveCount) throws RemoteException; // Get User from LeaveApplication then Subtract
+    public Boolean approveLA(String LAID, String Reason) throws RemoteException;
+    public Boolean rejectLA(String LAID, String Reason) throws RemoteException;
     public String GenerateReport() throws RemoteException; // Already Pretty Formated
 }
 

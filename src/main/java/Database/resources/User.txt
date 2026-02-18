@@ -1,7 +1,7 @@
-UserID;FirstName;LastName;Password;Role;LeavesUsed;LeavesLeft;
-bob;bob;bob;bob;admin;0;10
-ferb;ferb;ferb;ferb;FM;0;10
-ivan;ivan;ivan;ivan;IM;0;10
-peter;peter;peter;peter;PM;0;10
-sam;sam;sam;sam;SM;0;10
-wow;wow;wow;wow;SM;0;10
+UserID;FirstName;LastName;Password;Role;ALUsed;ALRemaining;MLUsed;MLRemaining;
+bob;bob;bob;bob;admin;0;30;0;30;
+ferb;ferb;ferb;ferb;FM;0;30;0;30;
+ivan;ivan;ivan;ivan;IM;0;30;0;30;
+peter;peter;peter;peter;PM;0;30;0;30;
+sam;sam;sam;sam;SM;0;30;0;30;
+wow;wow;wow;wow;SM;0;30;0;30;

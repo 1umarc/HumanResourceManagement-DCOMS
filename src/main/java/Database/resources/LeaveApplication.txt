@@ -1,1 +1,1 @@
-UserID;ApplicationDate;StarDate;NumberOfDays;Status;
+LAID;UserID;ApplicationDate;StarDate;NumberOfDays;ReasonForLeave;Status;ReasonForRejection;
