@@ -17,7 +17,7 @@ public interface LeaveInterface extends Remote { // ALL Methods Implementing thi
     public List<String> viewUserLeaves(String employeeID) throws RemoteException; // Returns Number of leave used and remaining for a specific employee [ALUsed;ALRemaining;MLUsed;MLRemaining] [0;30;0;30]
     public List<Item> viewUserPendingLA(String employeeID) throws RemoteException;
     public List<Item> viewUserLA(String employeeID) throws RemoteException;
-    public Boolean applyLA(List<String> Details) throws RemoteException;
+    public int applyLA(List<String> Details) throws RemoteException;
     public Boolean updateLA(String LAID, List<String> Details) throws RemoteException;
     public Boolean deleteLA(String LAID) throws RemoteException;
 
