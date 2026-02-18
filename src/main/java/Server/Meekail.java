@@ -30,15 +30,28 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Number of leave used and remaining for a specific employee [ALUsed;ALRemaining;MLUsed;MLRemaining] [0;30;0;30]
     public List<String> viewUserLeaves (String employeeID) throws RemoteException {
-        
-        return null;
+        ItemCollection items = ItemCollectionFactory.createItemCollection("User",port);
+
+        Item user = items.getItem(employeeID);
+
+        if (user == null) {
+            return null;//employeeID is invalid
+        }
+        else{
+            List<String> details = new ArrayList<>();
+            details.add(user.getFieldValue("ALUsed")); // ALUsed
+            details.add(user.getFieldValue("ALRemaining")); // ALRemaining  
+            details.add(user.getFieldValue("MLUsed")); // MLUsed
+            details.add(user.getFieldValue("MLRemaining")); // MLRemaining
+            return details;
+        }        
     }
 
     //all the pending leaves of a specific employee in a list of items format
     @Override
     public List<Item> viewUserPendingLA(String employeeID) throws RemoteException {
         
-        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        ItemCollection allLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
         
         List<String> fields = new ArrayList<>();
         fields.add("UserID");
@@ -48,7 +61,11 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
         values.add(employeeID);
         values.add("Pending");
         
-        List<Item> ApprovedLeaveEmployee = AllLeaves.filter(fields, values);
+        List<Item> ApprovedLeaveEmployee = allLeaves.filter(fields, values);
+
+        if (ApprovedLeaveEmployee.isEmpty()) {
+            return null; //there is no pending leave applications for this employee, or the employeeID is invalid
+        }
 
         return ApprovedLeaveEmployee;
     }
@@ -56,11 +73,14 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     //Creats an Item list of a all the leave application for a specific employee
     @Override   
     public List<Item> viewUserLA(String employeeID) throws RemoteException {
-        
+            
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
         
-        
         List<Item> ApprovedLeaveEmployee = AllLeaves.filter("UserID", employeeID);
+
+        if (ApprovedLeaveEmployee.isEmpty()) {
+            return null; //there is no leave applications for this employee, or the employeeID is invalid
+        }
 
         return ApprovedLeaveEmployee;
     }
@@ -83,12 +103,22 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     @Override
     public List<Item> viewLA() throws RemoteException {
-        return null;
+        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        
+        return AllLeaves.getAll();
     }
 
     @Override
     public List<Item> viewPendingLA() throws RemoteException {
-        return null;
+        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        
+        List<Item> ApprovedLeaveEmployee = AllLeaves.filter("Status", "Pending");
+        
+        if (ApprovedLeaveEmployee.isEmpty()) {
+            return null; //there is no pending leave applications
+        }   
+        
+        return ApprovedLeaveEmployee;
     }
 
     @Override
