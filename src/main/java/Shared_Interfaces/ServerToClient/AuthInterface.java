@@ -11,7 +11,7 @@ import Shared_Interfaces.Item;
 
 // Step 1: Define the remote interface
 public interface AuthInterface extends Remote { // ALL Methods Implementing this should be synchronized?
-    public Item login(String username, String password) throws RemoteException;
+    public int login(String username, String password) throws RemoteException;
     public void logout(String sessionToken) throws RemoteException; // Luven's Logout Session Tracking Thing?
 }
 

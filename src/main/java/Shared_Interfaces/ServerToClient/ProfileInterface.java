@@ -13,8 +13,8 @@ import java.util.List;
 // Step 1: Define the remote interface
 public interface ProfileInterface extends Remote { // ALL Methods Implementing this should be synchronized?
     // Used By Everyone
-    public List<Item> viewUserProfile(String employeeID) throws RemoteException;
-    public Boolean editProfile(Item User) throws RemoteException;
+    public List<String> viewUserProfile(String employeeID) throws RemoteException;
+    public Boolean editProfile(Item User, String Role) throws RemoteException;
 
     // Used By HR Staff
     public List<Item> viewAllProfiles() throws RemoteException;
