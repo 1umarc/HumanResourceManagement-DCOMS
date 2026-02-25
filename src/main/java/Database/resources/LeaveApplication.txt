@@ -1,4 +1,6 @@
 LAID;UserID;LeaveType;ApplicationDate;StarDate;NumberOfDays;ReasonForLeave;Status;ReasonForRejection;
-A01;U01;EM;12/12/2025;18/12/2025;5;Sick;Pending;;
-A02;U02;EM;12/12/2025;18/12/2025;5;Sick;Rejected;Invalid Date;
-A03;U03;EM;12/12/2025;18/12/2025;5;Sick;Approved;;
+A01;bob;ML;12/12/2025;18/12/2025;10;Sick;Pending;-;
+A02;ferb;ML;12/12/2025;18/12/2025;5;Sick;Rejected;Invalid Date;
+A03;ferb;ML;12/12/2025;18/12/2025;5;Sick;Pending;-;
+A04;bob;ML;14/12/2025;25/12/2025;5;Sick;Pending;-;
+A05;bob;AL;13/05/2025;15/05/2025;3;Family event;Pending;-;
