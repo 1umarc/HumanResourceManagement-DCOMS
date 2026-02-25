@@ -7,6 +7,10 @@
 Install Maven
 `sudo apt install maven`
 
+If you pull code run the bellow command before building
+`sed -i 's/\r$//' ./run_nodes.sh`
+
+Run the bellow command to build project
 `./run_nodes.sh`
 
 The Script has a temporary fix to fully kill the running java processes (only on start up of the script so the processes will still be running but you could kill it after you finish running the project with `pkill java` or `ps` then `kill ###` where `###` is the Process ID (PID))
@@ -18,18 +22,18 @@ Build The Project with Maven
 `mvn clean package`
 
 Starts up the Registry Node (Max 1)
-`mvn exec:java -Dexec.mainClass=nodes.RegistryNode -Dexec.args="5000"`
+`mvn exec:java -Dexec.mainClass=nodes.RegistryNode -Dexec.args="1099"`
 
 Wait for Registry Node to start up Before The Rest
 
 Starts up Database Node (New Terminal - Max 1)
-`mvn exec:java -Dexec.mainClass=nodes.ServerNode '-Dexec.args="5000"`
+`mvn exec:java -Dexec.mainClass=nodes.ServerNode -Dexec.args="1099"`
 
 Starts up Server Nodes (New Terminal For Every New Node)
-`mvn exec:java -Dexec.mainClass=nodes.ServerNode -Dexec.args="5000"`
+`mvn exec:java -Dexec.mainClass=nodes.ServerNode -Dexec.args="1099"`
 
 Starts up Client Nodes (New Terminal For Every New Node)
-`mvn exec:java -Dexec.mainClass=nodes.ClientNode -Dexec.args="5000"`
+`mvn exec:java -Dexec.mainClass=nodes.ClientNode -Dexec.args="1099"`
 
 Kill Processes by `Ctrl+C` or Closing the Terminal
 
