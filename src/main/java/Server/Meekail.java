@@ -8,7 +8,7 @@ package Server;
 /**
  *
  * @author luven
- */
+ */ 
 import java.util.ArrayList;
 import java.util.List;
 import Shared_Interfaces.ServerToClient.LeaveInterface;
@@ -21,7 +21,7 @@ import Shared_Interfaces.Item;
 // Step 1: Implement the remote interface 
 public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // extends for remote object, implements its interface
     private final int port;
-    // Step 2: Constructor must throw RemoteException as UnicastRemoteObject constructor does
+    private String[] fileTypes = {"User","LeaveApplications"};// Step 2: Constructor must throw RemoteException as UnicastRemoteObject constructor does
     
     public Meekail(int port) throws RemoteException {
         super();
@@ -30,7 +30,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Number of leave used and remaining for a specific employee [ALUsed;ALRemaining;MLUsed;MLRemaining] [0;30;0;30]
     public List<String> viewUserLeaves (String employeeID) throws RemoteException {
-        ItemCollection items = ItemCollectionFactory.createItemCollection("User",port);
+        ItemCollection items = ItemCollectionFactory.createItemCollection(fileTypes[0],port);
 
         Item user = items.getItem(employeeID);
 
@@ -51,7 +51,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     @Override
     public List<Item> viewUserPendingLA(String employeeID) throws RemoteException {
         
-        ItemCollection allLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        ItemCollection allLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         
         List<String> fields = new ArrayList<>();
         fields.add("UserID");
@@ -74,7 +74,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     @Override   
     public List<Item> viewUserLA(String employeeID) throws RemoteException {
             
-        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         
         List<Item> ApprovedLeaveEmployee = AllLeaves.filter("UserID", employeeID);
 
@@ -87,14 +87,14 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     @Override
     public List<Item> viewLA() throws RemoteException {
-        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplication",port);
         
         return AllLeaves.getAll();
     }
 
     @Override
     public List<Item> viewPendingLA() throws RemoteException {
-        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         
         List<Item> ApprovedLeaveEmployee = AllLeaves.filter("Status", "Pending");
         
@@ -108,7 +108,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     @Override
     public int applyLA(List<String> Details) throws RemoteException {
         
-        ItemCollection UserItems = ItemCollectionFactory.createItemCollection("User",port);
+        ItemCollection UserItems = ItemCollectionFactory.createItemCollection(fileTypes[0],port);//Lsit of Iteams
         Item user = UserItems.getItem(Details.get(0));
         
         if (user == null) {
@@ -128,7 +128,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
         }
         
         else{
-            ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+            ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
             //get the last ID and increment it by 1 to get the new ID
             List<String> IDColumn = AllLeaves.getColumn("ID");
             String newID = "001";
@@ -151,7 +151,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     @Override
     public Boolean deleteLA(String LAID) throws RemoteException {
-        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplications",port);
+        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         Item item = AllLeaves.getItem(LAID);
         
         if (item == null) {
