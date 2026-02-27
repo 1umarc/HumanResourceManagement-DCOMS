@@ -30,7 +30,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Tested and passed
     //Number of leave used and remaining for a specific employee [ALUsed;ALRemaining;MLUsed;MLRemaining] [0;30;0;30]
-    public List<String> viewUserLeaves (String employeeID) throws RemoteException {
+    public synchronized List<String> viewUserLeaves (String employeeID) throws RemoteException {
         ItemCollection items = ItemCollectionFactory.createItemCollection(fileTypes[0],port);
 
         Item user = items.getItem(employeeID);
@@ -52,7 +52,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     //Tested and passed
     //all the pending leaves of a specific employee in a list of items format
     @Override
-    public List<Item> viewUserPendingLA(String employeeID) throws RemoteException {
+    public synchronized List<Item> viewUserPendingLA(String employeeID) throws RemoteException {
         
         ItemCollection allLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         
@@ -76,7 +76,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     //Tested and passed
     //Creats an Item list of a all the leave application for a specific employee
     @Override   
-    public List<Item> viewUserLA(String employeeID) throws RemoteException {
+    public synchronized List<Item> viewUserLA(String employeeID) throws RemoteException {
             
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         
@@ -91,8 +91,8 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Tested and passed
     @Override
-    public List<Item> viewLA() throws RemoteException {
-        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection("LeaveApplication",port);
+    public synchronized List<Item> viewLA() throws RemoteException {
+        ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         
         if (AllLeaves.getAll().isEmpty()) {
             return null; //there is no leave applications
@@ -104,7 +104,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Tested and passed
     @Override
-    public List<Item> viewPendingLA() throws RemoteException {
+    public synchronized List<Item> viewPendingLA() throws RemoteException {
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         
         List<Item> ApprovedLeaveEmployee = AllLeaves.filter("Status", "Pending");
@@ -119,7 +119,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     //Tested and passed
     //the details list shoul contain the following details in this order: [UserID, LeaveType, ApplicaitonDate, StartDate, NumberOfDays,ReasonForLeave]
     @Override
-    public int applyLA(List<String> Details) throws RemoteException {
+    public synchronized int applyLA(List<String> Details) throws RemoteException {
         
         ItemCollection UserItems = ItemCollectionFactory.createItemCollection(fileTypes[0],port);//Lsit of Iteams
         Item user = UserItems.getItem(Details.get(0));
@@ -183,7 +183,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Test and passed
         @Override
-    public int deleteLA(String LAID) throws RemoteException {
+    public synchronized int deleteLA(String LAID) throws RemoteException {
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         Item item = AllLeaves.getItem(LAID);
         if (item == null) {
@@ -201,7 +201,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     //Tested and passed
     // List<String> = [LeaveType; StarDate; NumberOfDays; ReasonForLeave]
     @Override
-    public int updateLA(String LAID, String field, String Value) throws RemoteException {
+    public synchronized int updateLA(String LAID, String field, String Value) throws RemoteException {
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         Item item = AllLeaves.getItem(LAID);
         if (item == null){
@@ -249,7 +249,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Tested and Passed
     @Override
-    public Boolean editRemainingLeaves(String userID, String LeaveType, String LeaveCount) throws RemoteException {
+    public synchronized Boolean editRemainingLeaves(String userID, String LeaveType, String LeaveCount) throws RemoteException {
         
         ItemCollection AllProfiles = ItemCollectionFactory.createItemCollection(fileTypes[0],port);
         
@@ -267,7 +267,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     
     //Tested and passed
     @Override
-    public Boolean approveLA(String LAID) throws RemoteException {
+    public synchronized Boolean approveLA(String LAID) throws RemoteException {
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         ItemCollection AllProfiles = ItemCollectionFactory.createItemCollection(fileTypes[0],port);
 
@@ -312,7 +312,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //tested and passed
     @Override
-    public Boolean rejectLA(String LAID, String Reason) throws RemoteException {
+    public synchronized Boolean rejectLA(String LAID, String Reason) throws RemoteException {
         
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);
         Item leaveApplication = AllLeaves.getItem(LAID);
@@ -330,7 +330,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
 
     //Tested and passed
     @Override
-    public List<Item> GenerateReport() throws RemoteException {
+    public synchronized List<Item> GenerateReport() throws RemoteException {
         return null;
     }
      
