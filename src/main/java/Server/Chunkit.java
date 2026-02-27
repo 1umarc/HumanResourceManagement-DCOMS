@@ -233,7 +233,7 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
         return reportList;
     }
 
-    /////////////////////
+    //
     @Override
     public List<String> viewUserLeaves(String employeeID) throws RemoteException {
         return null;
@@ -255,17 +255,14 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
     }
 
     @Override
-    public Boolean deleteLA(String LAID) throws RemoteException {
-        return null;
+    public int deleteLA(String LAID) throws RemoteException {
+        return 0;
     }
 
     @Override
-    public Boolean updateLA(String LAID, List<String> Details) throws RemoteException {
-        return null;
+    public int updateLA(String LAID, String Field, String Value) throws RemoteException {
+        return 0;
     }
-
-///////////////////
-
     @Override
     public List<Item> viewLA() throws RemoteException {
         return null;
@@ -277,12 +274,12 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
     }
 
     @Override
-    public Boolean editRemainingLeaves(String LAID, String LeaveType, int LeaveCount) throws RemoteException {
+    public Boolean editRemainingLeaves(String LAID, String LeaveType, String LeaveCount) throws RemoteException {
         return null;
     }
 
     @Override
-    public Boolean approveLA(String LAID, String Reason) throws RemoteException {
+    public Boolean approveLA(String LAID) throws RemoteException {
         return null;
     }
 

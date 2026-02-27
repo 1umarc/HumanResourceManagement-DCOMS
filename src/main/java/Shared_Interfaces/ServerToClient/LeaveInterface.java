@@ -18,14 +18,14 @@ public interface LeaveInterface extends Remote { // ALL Methods Implementing thi
     public List<Item> viewUserPendingLA(String employeeID) throws RemoteException;
     public List<Item> viewUserLA(String employeeID) throws RemoteException;
     public int applyLA(List<String> Details) throws RemoteException;
-    public Boolean updateLA(String LAID, List<String> Details) throws RemoteException;
-    public Boolean deleteLA(String LAID) throws RemoteException;
+    public int updateLA(String LAID, String Field, String Value) throws RemoteException;
+    public int deleteLA(String LAID) throws RemoteException;
 
     // Used By HR Staff
     public List<Item> viewLA() throws RemoteException;
     public List<Item> viewPendingLA() throws RemoteException;
-    public Boolean editRemainingLeaves(String LAID, String LeaveType, int LeaveCount) throws RemoteException; // Get User from LeaveApplication then Subtract
-    public Boolean approveLA(String LAID, String Reason) throws RemoteException;
+    public Boolean editRemainingLeaves(String employeeID, String LeaveType, String LeaveCount) throws RemoteException; // Get User from LeaveApplication then Subtract
+    public Boolean approveLA(String LAID) throws RemoteException;
     public Boolean rejectLA(String LAID, String Reason) throws RemoteException;
     public List<Item> GenerateReport() throws RemoteException; // Already Pretty Formated
 }
