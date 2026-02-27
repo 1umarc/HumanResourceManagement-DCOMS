@@ -11,6 +11,9 @@ import java.util.ArrayList;
  * @author luven
  */
 import java.util.List;
+
+import javax.management.relation.Role;
+
 import Shared_Interfaces.ServerToClient.ProfileInterface;
 import Shared_Interfaces.ServerToClient.AuthInterface;
 import Shared_Interfaces.ServerToClient.LeaveInterface;
@@ -38,17 +41,23 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
         ItemCollection Users = ItemCollectionFactory.createItemCollection("User", this.port);
 
         Item user = Users.getItem(username);
-
-        if (user == null || 
-            !user.getFieldValue("Password").equals(password)) {
+        // System.out.println(user);
+        if (user == null) {
             return 0;
+        }
+        else if (user.getFieldValue("UserID").equals(username) && 
+                !user.getFieldValue("Password").equals(password)) {
+            return -1;
+        }
+        else if (user.getFieldValue("Password").equals(password) && 
+                !user.getFieldValue("UserID").equals(username) ) {
+            return -2;
         }
 
         String role = user.getFieldValue("Role");
 
         switch (role) {
             case "HRStaff":
-            
                 return 1;
 
             case "Intern":
@@ -91,54 +100,35 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
     }
 
     @Override
-    public Boolean editProfile(Item User, String Role) throws RemoteException {
+    public Boolean editProfile(String Username, String Fieldname, String Value) throws RemoteException {
 
         ItemCollection Users = ItemCollectionFactory.createItemCollection("User", this.port);
 
-        if (User == null) {
+        if (Username == null || Fieldname == null || Value == null) {
             return false;
         }
 
-        // Get original user from database
-        Item originalUser = Users.getItem(User.getID());
+        Item user = Users.getItem(Username);
 
-        if (originalUser == null) {
+        if (user == null) {
             return false;
         }
 
-        // If HRStaff → allow full edit
-        if (Role.equals("HRStaff")) {
-
-            Users.removeItem(originalUser.getID());
-            Users.createItem(User.getDetails());
-            return true;
+        // Validate field exists
+        if (!Users.getFieldNames().contains(Fieldname)) {
+            return false;
         }
 
-        // If Intern or Engineer → restrict editing
-        if (Role.equals("Intern") || Role.equals("Engineer")) {
+        // Update field value
+        Boolean updated = user.setFieldValue(Fieldname, Value);
 
-            // Keep restricted fields from original user
-            List<String> newDetails = new ArrayList<>();
-
-            newDetails.add(User.getFieldValue("UserID"));
-            newDetails.add(User.getFieldValue("FirstName"));
-            newDetails.add(User.getFieldValue("LastName"));
-            newDetails.add(User.getFieldValue("Password"));
-
-            // Preserve original restricted values
-            newDetails.add(originalUser.getFieldValue("Role"));
-            newDetails.add(originalUser.getFieldValue("ALUsed"));
-            newDetails.add(originalUser.getFieldValue("ALRemaining"));
-            newDetails.add(originalUser.getFieldValue("MLUsed"));
-            newDetails.add(originalUser.getFieldValue("MLRemaining"));
-
-            Users.removeItem(originalUser.getID());
-            Users.createItem(newDetails.toArray(new String[0]));
-
+        if (updated) {
+            Users.UpdateFile(); // SAVE TO FILE
             return true;
         }
 
         return false;
+
     }
 
     @Override
@@ -158,13 +148,21 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
     @Override
     public List<Item> GenerateReport() throws RemoteException {
 
+        System.out.println("============================");
         ItemCollection users = ItemCollectionFactory.createItemCollection("User", this.port);
         ItemCollection leaves = ItemCollectionFactory.createItemCollection("LeaveApplication", this.port);
+        System.out.println("============================");
 
         List<Item> allUsers = users.getAll();
         List<Item> allLeaves = leaves.getAll();
 
+        System.out.println(allUsers);
+        System.out.println("============================");
+        System.out.println(allLeaves);
+
         List<Item> reportList = new ArrayList<>();
+
+
 
         // Define report field names
         List<String> reportFields = new ArrayList<>();
@@ -290,6 +288,11 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
 
     @Override
     public Boolean rejectLA(String LAID, String Reason) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public Item CreateNewEmployee(List<String> details) throws RemoteException {
         return null;
     }
 }

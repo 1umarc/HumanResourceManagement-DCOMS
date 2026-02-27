@@ -184,7 +184,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     }
 
     @Override
-    public String GenerateReport() throws RemoteException {
+    public List<Item> GenerateReport() throws RemoteException {
         return null;
     }
 
