@@ -199,7 +199,7 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     }
 
     //Tested and passed
-    // List<String> = [LeaveType; StarDate; NumberOfDays; ReasonForLeave]
+    // List<String> = [LeaveType; StartDate; NumberOfDays; ReasonForLeave]
     @Override
     public synchronized int updateLA(String LAID, String field, String Value) throws RemoteException {
         ItemCollection AllLeaves = ItemCollectionFactory.createItemCollection(fileTypes[1],port);

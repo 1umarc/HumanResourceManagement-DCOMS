@@ -78,7 +78,7 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
     } // Luven's Logout Session Tracking Thing?
 
     @Override
-    public List<String> viewUserProfile(String employeeID) throws RemoteException {
+    public synchronized List<String> viewUserProfile(String employeeID) throws RemoteException {
 
         ItemCollection Users = ItemCollectionFactory.createItemCollection("User", this.port);
 
@@ -100,7 +100,7 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
     }
 
     @Override
-    public Boolean editProfile(String Username, String Fieldname, String Value) throws RemoteException {
+    public synchronized Boolean editProfile(String Username, String Fieldname, String Value) throws RemoteException {
 
         ItemCollection Users = ItemCollectionFactory.createItemCollection("User", this.port);
 
@@ -288,8 +288,56 @@ public class Chunkit extends UnicastRemoteObject implements AuthInterface, Profi
         return null;
     }
 
+    //Intern - 4, 4; HRstaff - 15,15; Engineer - 12,12; CEO - 30,30;  
     @Override
-    public Item CreateNewEmployee(List<String> details) throws RemoteException {
-        return null;
+    public Boolean CreateNewEmployee(List<String> details) throws RemoteException {
+        ItemCollection Users = ItemCollectionFactory.createItemCollection("User", this.port);
+        List<String> userId = Users.getColumn("UserID");
+
+        for (String id : userId) {
+            if (id.equals(details.get(0))) {
+                return false;// user already exists
+            }
+        }
+        String ALremaining;
+        String MLremaining;
+
+        String role = details.get(5);  // store once (cleaner)
+
+        
+        // Use .equals() for String comparison
+        if ("HRStaff".equals(role)) {
+            ALremaining = "15";
+            MLremaining = "15";
+        }
+        else if ("Engineer".equals(role)) {
+            ALremaining = "12";
+            MLremaining = "12";
+        }
+        else if ("Intern".equals(role)) {
+            ALremaining = "4";
+            MLremaining = "4";
+        }
+        else {
+            ALremaining = "30";
+            MLremaining = "30";
+        }
+
+        List<String> newDetails = new ArrayList<>();
+
+        for (String detail : details) {
+            newDetails.add(detail);
+        }
+        // Add leave balances
+        newDetails.add("0");          // AL taken
+        newDetails.add(ALremaining);  // AL remaining
+        newDetails.add("0");          // ML taken
+        newDetails.add(MLremaining);  // ML remaining
+
+        String[] newDetailsArray = newDetails.toArray(new String[0]);
+
+        Users.createItem(newDetailsArray);
+
+        return true;
     }
 }
