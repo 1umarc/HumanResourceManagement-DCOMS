@@ -7,7 +7,7 @@ package Server;
 
 /**
  *
- * @author luven
+ * @author MEEKAIL
  */ 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,11 @@ import Server.DataLogic.ItemCollectionFactory;
 import Shared_Interfaces.Item;
 
 // Step 1: Implement the remote interface 
-public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // extends for remote object, implements its interface
+public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ // extends for remote object, implements its interface
     private final int port;
     private String[] fileTypes = {"User","LeaveApplication"};// Step 2: Constructor must throw RemoteException as UnicastRemoteObject constructor does
     
-    public Meekail(int port) throws RemoteException {
+    public LeaveImpl (int port) throws RemoteException {
         super();
         this.port = port;
     }
@@ -331,7 +331,88 @@ public class Meekail extends UnicastRemoteObject implements LeaveInterface{ // e
     //Tested and passed
     @Override
     public synchronized List<Item> GenerateReport() throws RemoteException {
-        return null;
+
+        System.out.println("============================");
+        ItemCollection users = ItemCollectionFactory.createItemCollection("User", this.port);
+        ItemCollection leaves = ItemCollectionFactory.createItemCollection("LeaveApplication", this.port);
+        System.out.println("============================");
+
+        List<Item> allUsers = users.getAll();
+        List<Item> allLeaves = leaves.getAll();
+
+        System.out.println(allUsers);
+        System.out.println("============================");
+        System.out.println(allLeaves);
+
+        List<Item> reportList = new ArrayList<>();
+
+        // Define report field names
+        List<String> reportFields = new ArrayList<>();
+        reportFields.add("UserID");
+        reportFields.add("FirstName");
+        reportFields.add("LastName");
+        reportFields.add("Role");
+        reportFields.add("TotalApplications");
+        reportFields.add("Approved");
+        reportFields.add("Rejected");
+        reportFields.add("Pending");
+        reportFields.add("TotalApprovedDays");
+        reportFields.add("ApprovalRate");
+
+        for (Item user : allUsers) {
+
+            String userID = user.getFieldValue("UserID");
+
+            int total = 0;
+            int approved = 0;
+            int rejected = 0;
+            int pending = 0;
+            int approvedDays = 0;
+
+            for (Item leave : allLeaves) {
+
+                if (!leave.getFieldValue("UserID").equals(userID))
+                    continue;
+
+                total++;
+
+                String status = leave.getFieldValue("Status");
+
+                switch (status) {
+                    case "Approved":
+                        approved++;
+                        approvedDays += Integer.parseInt(leave.getFieldValue("NumberOfDays"));
+                        break;
+
+                    case "Rejected":
+                        rejected++;
+                        break;
+
+                    case "Pending":
+                        pending++;
+                        break;
+                }
+            }
+
+            double approvalRate = total == 0 ? 0 : ((double) approved / total) * 100;
+
+            List<String> reportDetails = new ArrayList<>();
+            reportDetails.add(userID);
+            reportDetails.add(user.getFieldValue("FirstName"));
+            reportDetails.add(user.getFieldValue("LastName"));
+            reportDetails.add(user.getFieldValue("Role"));
+            reportDetails.add(String.valueOf(total));
+            reportDetails.add(String.valueOf(approved));
+            reportDetails.add(String.valueOf(rejected));
+            reportDetails.add(String.valueOf(pending));
+            reportDetails.add(String.valueOf(approvedDays));
+            reportDetails.add(String.format("%.2f", approvalRate));
+
+            Item reportItem = new Item(reportDetails, reportFields, "Report");
+
+            reportList.add(reportItem);
+        }
+        return reportList;
     }
      
     private Boolean isStartDateAfterApplicationDate(String applicationDate, String startDate) {
