@@ -14,8 +14,8 @@ import Shared_Interfaces.ServerToClient.AuthInterface;
 import Shared_Interfaces.ServerToClient.LeaveInterface;
 import Shared_Interfaces.ServerToClient.ProfileInterface;
 
-import Server.Chunkit;
-import Server.Meekail;
+import Server.UserImpl;
+import Server.LeaveImpl;
 
 
 public class ServerNode {
@@ -23,9 +23,9 @@ public class ServerNode {
         try {
             int port = Integer.parseInt(args[0]);
 
-            LeaveInterface leaveInterface = new Meekail(port);
-            AuthInterface authInterface = new Chunkit(port);
-            ProfileInterface profileInterface = new Chunkit(port);
+            LeaveInterface leaveInterface = new LeaveImpl(port);
+            AuthInterface authInterface = new UserImpl(port);
+            ProfileInterface profileInterface = new UserImpl(port);
 
             RMIBind.BindService(leaveInterface, "LeaveInterface", port);
             RMIBind.BindService(authInterface, "AuthInterface", port);

@@ -11,7 +11,6 @@ package nodes;
  */
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.Naming; // alternative & more direct, dont need to locate registry with port (step 2), just locate directly with name
 
 public class RegistryNode {
     public static void main(String[] args) {
