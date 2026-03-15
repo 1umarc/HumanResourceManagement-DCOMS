@@ -180,7 +180,7 @@ public class ClientUI
     private void displayProfilesTable(List<Item> profiles)
     {
         System.out.println(" +----+------------+--------------------+------------+--------+--------+");
-        System.out.printf("  | %-2s | %-10s | %-18s | %-10s | %-6s | %-6s |" + "%n", "#", "UserID", "Name", "Role", "AL Rem", "ML Rem");
+        System.out.printf(" | %-2s | %-10s | %-18s | %-10s | %-6s | %-6s |" + "%n", "#", "UserID", "Name", "Role", "AL Rem", "ML Rem");
         System.out.println(" +----+------------+--------------------+------------+--------+--------+");
 
         // Loop through all profiles
@@ -501,12 +501,12 @@ public class ClientUI
 
                 System.out.println
                 (
-                     "\n  +==========================================================+\n"
-                    + "  |  1  |  Edit Employee Fields                             |\n"
-                    + "  |  2  |  Delete Employee                                  |\n"
-                    + "  |  3  |  Edit Leave Balance                               |\n"
-                    + "  |  4  |  Back                                             |\n"
-                    + "  +==========================================================+"
+                     "\n +==========================================================+\n"
+                    + " |  1  |  Edit Employee Fields                             |\n"
+                    + " |  2  |  Delete Employee                                  |\n"
+                    + " |  3  |  Edit Leave Balance                               |\n"
+                    + " |  4  |  Back                                             |\n"
+                    + " +==========================================================+"
                 );
                 System.out.print(" |  Select option > ");
                 String action = scanner.nextLine().trim();
