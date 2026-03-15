@@ -398,7 +398,7 @@ public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ //
         summaryFields.add("FirstName");
         summaryFields.add("LastName");
         summaryFields.add("Role");
-        summaryFields.add("Econtact");
+        summaryFields.add("E-contact");
         summaryFields.add("ALUsed");
         summaryFields.add("ALRemaining");
         summaryFields.add("MLUsed");
@@ -415,7 +415,7 @@ public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ //
         summaryDetails.add(user.getFieldValue("FirstName"));
         summaryDetails.add(user.getFieldValue("LastName"));
         summaryDetails.add(user.getFieldValue("Role"));
-        summaryDetails.add(user.getFieldValue("Econtact"));
+        summaryDetails.add(user.getFieldValue("E-contact"));
         summaryDetails.add(user.getFieldValue("ALUsed"));
         summaryDetails.add(user.getFieldValue("ALRemaining"));
         summaryDetails.add(user.getFieldValue("MLUsed"));
@@ -429,7 +429,7 @@ public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ //
 
         List<Item> reportList = new ArrayList<>();
         reportList.add(new Item(summaryDetails, summaryFields, "Report")); // Index 0 = summary
-        reportList.addAll(employeeLeaves);                                  // Index 1+ = leave history
+        reportList.addAll(employeeLeaves);                                       // Index 1+ = leave history
 
         return reportList;
     }
@@ -459,5 +459,4 @@ public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ //
         }
         return false;
     }
-
 }

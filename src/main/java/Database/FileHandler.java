@@ -174,54 +174,10 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     public synchronized List<List<String>> getData() {
         return this.data;
     }
-    
-    private synchronized List<String> getColumn(String wantedField) {
-        int index = this.getFieldIndex(wantedField);
-        List<String> columnData = new ArrayList<>();
-        
-        if (index == -1) {
-            return columnData;
-        }
-        
-        for (List<String> rowData : this.data) {
-            String wantedData = rowData.get(index);
-            
-            columnData.add(wantedData);
-        }
-        
-        return columnData;
-    }
 
     @Override
     public synchronized List<String> getFieldName() {
         return this.fields;
     }
-    
-    private int getFieldIndex(String wantedField) {
-        int index = 0;
-        for (String field : this.fields) {
-            if (field.equals(wantedField)) {
-                return index;
-            }
-            
-            index++;
-        }
-        
-        return -1;
-    }
 
-    @Override
-    public synchronized List<List<String>> FitlerData(String Fields, String Values) {
-        List<List<String>> filteredData = new ArrayList<>();
-        
-        List<String> ColumnData = this.getColumn(Fields);
-
-        for (int i = 0; i < ColumnData.size(); i++) {
-            if (Values.equals(ColumnData.get(i))) {
-                filteredData.add(this.data.get(i));
-            }
-        } 
-        
-        return filteredData;
-    }
 }

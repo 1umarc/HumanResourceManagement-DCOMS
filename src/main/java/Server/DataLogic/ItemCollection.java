@@ -91,14 +91,7 @@ public class ItemCollection {
         if (index == -1) {
             return false;
         }
-        
-        Item currentItem = this.ItemList.get(index);
-        
-//        If Item Has Any Relationship or Item has Certain Status Then No Delete
-        if (!this.CanBeDeleted(currentItem.getID())) { 
-            return false;
-        }
-        
+               
         this.ItemList.remove(index);
         this.UpdateFile();
 
@@ -132,24 +125,6 @@ public class ItemCollection {
         }
         
         return this.ItemList.get(index);
-    }
-
-    private Boolean CanBeDeleted(String ID) throws RemoteException {
-        switch (this.Type) {
-            case "User" -> {                       
-                this.Database.setFileName("LeaveApplication");
-                
-                List<List<String>> ItemDetailList = this.Database.FitlerData("UserID", ID);
-                
-                return ItemDetailList.isEmpty();
-            }
-            case "LeaveApplication" -> {
-                return true;
-            }
-            default -> {
-                return true;
-            }
-        }
     }
     
     public synchronized List<Item> filter(List<String> Fields, List<String> Values) { // Field and Values Match 1 to 1 -> index 0 with index 0, etc

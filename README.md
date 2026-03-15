@@ -2,7 +2,6 @@
 
 ## How to Build & Run
 
-
 ### Linux (Terminal)
 Install Maven
 `sudo apt install maven`

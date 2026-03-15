@@ -15,6 +15,5 @@ public interface DatabaseInterface extends Remote {
     public Boolean writeData(List<List<String>> Items) throws RemoteException;
     public List<List<String>> getData() throws RemoteException;
     public List<String> getFieldName() throws RemoteException;
-    public List<List<String>> FitlerData(String Field, String Value) throws RemoteException;
 }
 

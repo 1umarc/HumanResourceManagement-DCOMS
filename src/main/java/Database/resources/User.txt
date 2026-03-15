@@ -1,6 +1,6 @@
 UserID;FirstName;LastName;Password;E-contact;Role;ALUsed;ALRemaining;MLUsed;MLRemaining;
 bob;bob;bob;bob;234;CEO;0;30;0;30;
-ferb;ferb;ferb;ferb;234;HRStaff;0;30;0;30;
+ferb;ferb;ferb;ferb;234;ew;0;30;0;30;
 ivan;ivan;ivan;ivan;234;Intern;0;30;0;30;
 peter;peter;peter;peter;234;Engineer;0;30;0;30;
 sam;sam;sam;sam;234;HRStaff;0;30;0;30;

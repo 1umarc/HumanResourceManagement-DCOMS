@@ -28,12 +28,12 @@ trap cleanup SIGINT SIGTERM
 echo "Building..."
 mvn clean package
 
-echo "Starting registry..."
+echo "Starting Registry..."
 java -cp "$JAR" "$PKG.RegistryNode" "$REGISTRY_PORT" &
 PIDS+=($!)
 sleep 1
 
-echo "Starting Database Servers..."
+echo "Starting Database Server..."
 for ((i=0; i<DATABASE_COUNT; i++)); do
   java -cp "$JAR" "$PKG.DatabaseNode" "$REGISTRY_PORT" &
   PIDS+=($!)
@@ -41,7 +41,7 @@ done
 
 sleep 5
 
-echo "Starting servers..."
+echo "Starting Application Server..."
 for ((i=0; i<SERVER_COUNT; i++)); do
   java -cp "$JAR" "$PKG.ServerNode" "$REGISTRY_PORT" &
   PIDS+=($!)
@@ -49,7 +49,7 @@ done
 
 sleep 5
 
-echo "Starting clients..."
+echo "Starting Client Server..."
 for ((i=0; i<CLIENT_COUNT; i++)); do
   java -cp "$JAR" "$PKG.ClientNode" "$REGISTRY_PORT"
   PIDS+=($!)

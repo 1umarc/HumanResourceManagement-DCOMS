@@ -38,7 +38,7 @@ public class ClientNode
             
             if (authInterface == null || profileInterface == null || leaveInterface == null) 
             {
-                System.err.println("!! Failed to retrieve one or more services, make sure server is running.");
+                System.err.println("Failed to retrieve one or more services, make sure server is running.");
                 System.exit(1); // Exit with 1 = failure
             }
             
@@ -50,7 +50,7 @@ public class ClientNode
         } 
         catch (Exception e) 
         {
-            System.err.println("!! Unexpected error has occured:");
+            System.err.println("Unexpected error has occured:");
             e.printStackTrace();
         }
     }

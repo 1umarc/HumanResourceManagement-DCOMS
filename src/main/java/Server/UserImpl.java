@@ -186,11 +186,6 @@ public class UserImpl extends UnicastRemoteObject implements AuthInterface, Prof
 
         Users.createItem(newDetailsArray);
 
-        for (int i = 0; i < newDetailsArray.length; i++) {
-            System.out.println(newDetailsArray[i]);
-        }
-        //System.out.println(newDetailsArray);
-
         return true;
     }
 }   

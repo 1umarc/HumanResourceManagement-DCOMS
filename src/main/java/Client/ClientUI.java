@@ -772,7 +772,7 @@ public class ClientUI
 
         if (leaves == null || leaves.isEmpty())
         {
-            System.out.println("  No leave applications found.");
+            System.out.println("  No leave applications recorded.");
             waitInput();
             return;
         }
@@ -912,13 +912,6 @@ public class ClientUI
         // Fetch all profiles so user can select by index
         List<Item> profiles = profileService.viewAllProfiles(); // RMI Call #17
 
-        if (profiles == null || profiles.isEmpty())
-        {
-            System.out.println("\n  No employee profiles found!");
-            waitInput();
-            return;
-        }
-
         // Select employee by index
         boolean select = true;
         while (select)
@@ -953,68 +946,67 @@ public class ClientUI
 
             List<Item> report = leaveService.GenerateReport(employeeID); // RMI Call #18
 
-            if (report == null || report.isEmpty())
-            {
-                System.out.println("  No data available for this employee.");
-                waitInput();
-                continue;
-            }
-
             // Index 0 is the profile + stats summary
             Item summary = report.get(0);
 
-            System.out.println(
+            System.out.println
+            (
                 "\n +==========================================================+\n"
-                + " |               BHEL HRM - EMPLOYEE LEAVE REPORT           |\n"
-                + " +==========================================================+\n"
-                + " |                     PROFILE DETAILS                      |\n"
+                + " |              BHEL HRM - EMPLOYEE YEARLY REPORT           |\n"
+                + " +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+\n"
+                + " |                  PROFILE & FAMILY DETAILS                |\n"
                 + " +==========================================================+"
             );
-            System.out.printf("  %-20s: %s%n",     "Employee ID",    summary.getFieldValue("UserID"));
-            System.out.printf("  %-20s: %s %s%n",  "Name",           summary.getFieldValue("FirstName"), summary.getFieldValue("LastName"));
-            System.out.printf("  %-20s: %s%n",     "Role",           summary.getFieldValue("Role"));
-            System.out.printf("  %-20s: %s%n",     "Emergency Ctct", summary.getFieldValue("Econtact"));
+            System.out.printf("  %-20s: %s%n", "Employee ID", summary.getFieldValue("UserID"));
+            System.out.printf("  %-20s: %s %s%n", "Name", summary.getFieldValue("FirstName"), summary.getFieldValue("LastName"));
+            System.out.printf("  %-20s: %s%n", "Role", summary.getFieldValue("Role"));
+            System.out.printf("  %-20s: %s%n", "Emer Contact", summary.getFieldValue("E-contact"));
             // %-20s: %s%n = 20 spaces, %s = String, %n = new line
-            System.out.println(
+
+            System.out.println
+            (
                 "\n +==========================================================+\n"
                 + " |                    LEAVE BALANCE                         |\n"
                 + " +==========================================================+"
             );
-            System.out.printf("  %-20s | Used : %-4s | Remaining : %s%n",
-                "Annual Leave (AL)",  summary.getFieldValue("ALUsed"),  summary.getFieldValue("ALRemaining"));
-            System.out.printf("  %-20s | Used : %-4s | Remaining : %s%n",
-                "Medical Leave (ML)", summary.getFieldValue("MLUsed"),  summary.getFieldValue("MLRemaining"));
-
-            System.out.println(
-                "\n +==========================================================+\n"
-                + " |                    LEAVE STATISTICS                      |\n"
-                + " +==========================================================+"
-            );
-            System.out.printf("  %-20s: %s%n",   "Total Applications", summary.getFieldValue("TotalApplications"));
-            System.out.printf("  %-20s: %s%n",   "Approved",           summary.getFieldValue("Approved"));
-            System.out.printf("  %-20s: %s%n",   "Rejected",           summary.getFieldValue("Rejected"));
-            System.out.printf("  %-20s: %s%n",   "Pending",            summary.getFieldValue("Pending"));
-            System.out.printf("  %-20s: %s day(s)%n", "Total Days Taken", summary.getFieldValue("TotalApprovedDays"));
-            System.out.printf("  %-20s: %s%n",   "Approval Rate",      summary.getFieldValue("ApprovalRate"));
+            System.out.printf("  %-20s | Used : %-4s | Remaining : %s%n", "Annual Leave (AL)", summary.getFieldValue("ALUsed"), summary.getFieldValue("ALRemaining"));
+            System.out.printf("  %-20s | Used : %-4s | Remaining : %s%n", "Medical Leave (ML)", summary.getFieldValue("MLUsed"), summary.getFieldValue("MLRemaining"));
 
             // Index 1+ are the leave history Items
-            System.out.println(
+            System.out.println
+            (
                  "\n +==========================================================+\n"
                 + " |                     LEAVE HISTORY                        |\n"
                 + " +==========================================================+"
             );
-
             if (report.size() == 1) // Only the summary item, no leave records
             {
-                System.out.println("  No leave applications on record.");
+                System.out.println("  No leave applications recorded.");
             }
             else
             {
-                List<Item> leaveHistory = report.subList(1, report.size()); // Slice off the summary
+                // Build leave history list manually from index 1 onwards
+                List<Item> leaveHistory = new ArrayList<>();
+                for (int i = 1; i < report.size(); i++)
+                {
+                    leaveHistory.add(report.get(i)); // get = List function
+                }
                 displayLATable(leaveHistory);
-                System.out.println("  Total : " + leaveHistory.size() + " application(s) on record.");
+                System.out.println("  Total : " + leaveHistory.size() + " application(s)");
             }
 
+            System.out.println
+            (
+                "\n +==========================================================+\n"
+                + " |                    LEAVE STATISTICS                      |\n"
+                + " +==========================================================+"
+            );
+            System.out.printf("  %-20s: %s%n", "Total Applications", summary.getFieldValue("TotalApplications"));
+            System.out.printf("  %-20s: %s%n", "Approved", summary.getFieldValue("Approved"));
+            System.out.printf("  %-20s: %s%n", "Rejected", summary.getFieldValue("Rejected"));
+            System.out.printf("  %-20s: %s%n", "Pending", summary.getFieldValue("Pending"));
+            System.out.printf("  %-20s: %s day(s)%n", "Total Days Taken", summary.getFieldValue("TotalApprovedDays"));
+            System.out.printf("  %-20s: %s%n", "Approval Rate", summary.getFieldValue("ApprovalRate"));
             System.out.println(" +==========================================================+");
             waitInput();
         }   
@@ -1156,7 +1148,6 @@ public class ClientUI
         }
     }
 
-
     // Menu 3.2.1: Edit Pending Leave Applications
     private void editPendingLAFlow() throws RemoteException
     {
@@ -1256,7 +1247,6 @@ public class ClientUI
         }
     }
 
-     
     // Menu 3.2.1.1 Update a Leave Application
     private void updateLAFlow(String LAID) throws RemoteException
     {
@@ -1348,7 +1338,6 @@ public class ClientUI
         }
         waitInput();
     }
-
 
     // Menu 3.2.1.2 Delete a Leave Application
     private boolean deleteLAFlow(String LAID) throws RemoteException
