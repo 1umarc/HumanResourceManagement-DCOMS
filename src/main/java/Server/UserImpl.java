@@ -130,17 +130,16 @@ public class UserImpl extends UnicastRemoteObject implements AuthInterface, Prof
     }
 
     @Override
-    public synchronized Boolean deleteProfile(Item User) throws RemoteException {    
+    public synchronized Boolean deleteProfile(String employeeID) throws RemoteException {    
         ItemCollection Users = ItemCollectionFactory.createItemCollection("User", this.port);
-
-        return Users.removeItem(User.getID());
+        return Users.removeItem(employeeID);
     }   
 
 
     //Intern - 4, 4; HRstaff - 15,15; Engineer - 12,12; CEO - 30,30;  
     @Override
     public Boolean createNewEmployee(List<String> details) throws RemoteException {
-        ItemCollection Users = ItemCollectionFactory.createItemCollection("User", this.port);
+        ItemCollection Users = ItemCollectionFactory.createItemCollection("User", port);
         List<String> userId = Users.getColumn("UserID");
 
         for (String id : userId) {
@@ -187,6 +186,12 @@ public class UserImpl extends UnicastRemoteObject implements AuthInterface, Prof
 
         Users.createItem(newDetailsArray);
 
+        for (int i = 0; i < newDetailsArray.length; i++) {
+            System.out.println(newDetailsArray[i]);
+        }
+        //System.out.println(newDetailsArray);
+
         return true;
     }
-}
+}   
+

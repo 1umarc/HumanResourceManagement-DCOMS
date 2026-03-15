@@ -27,7 +27,7 @@ public interface LeaveInterface extends Remote { // ALL Methods Implementing thi
     public Boolean editRemainingLeaves(String employeeID, String LeaveType, String LeaveCount) throws RemoteException; // Get User from LeaveApplication then Subtract
     public Boolean approveLA(String LAID) throws RemoteException;
     public Boolean rejectLA(String LAID, String Reason) throws RemoteException;
-    public List<Item> GenerateReport() throws RemoteException; // Already Pretty Formated
+    public List<Item> GenerateReport(String employeeID) throws RemoteException;
 }
 
 

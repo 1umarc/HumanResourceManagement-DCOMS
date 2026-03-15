@@ -14,6 +14,9 @@ import java.io.Serializable;
  * @author JONATHAN
  */
 public class Item implements Serializable {
+    // A recommended unique ID for version control of this class
+    private static final long serialVersionUID = 1L;
+    
     protected List<String> Fields;
     protected List<String> Details;
     protected String Type;

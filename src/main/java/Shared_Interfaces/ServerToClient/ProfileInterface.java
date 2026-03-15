@@ -18,7 +18,7 @@ public interface ProfileInterface extends Remote { // ALL Methods Implementing t
 
     // Used By HR Staff
     public List<Item> viewAllProfiles() throws RemoteException;
-    public Boolean deleteProfile(Item User) throws RemoteException;
+    public Boolean deleteProfile(String employeeID) throws RemoteException;
     public Boolean createNewEmployee(List<String> details) throws RemoteException;
 }
 

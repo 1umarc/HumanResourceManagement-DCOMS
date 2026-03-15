@@ -53,7 +53,7 @@ public class ItemCollection {
             Data.add(Arrays.asList(itemDetails));
         };
 
-        this.Database.writeData(this.ItemList);
+        this.Database.writeData(Data);
     }
     
     private int getItemIndex(String ID) {

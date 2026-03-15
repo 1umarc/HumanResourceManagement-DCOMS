@@ -51,7 +51,7 @@ sleep 5
 
 echo "Starting clients..."
 for ((i=0; i<CLIENT_COUNT; i++)); do
-  java -cp "$JAR" "$PKG.ClientNode" "$REGISTRY_PORT" &
+  java -cp "$JAR" "$PKG.ClientNode" "$REGISTRY_PORT"
   PIDS+=($!)
 done
 

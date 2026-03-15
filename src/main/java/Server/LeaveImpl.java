@@ -123,6 +123,14 @@ public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ //
         
         ItemCollection UserItems = ItemCollectionFactory.createItemCollection(fileTypes[0],port);//Lsit of Iteams
         Item user = UserItems.getItem(Details.get(0));
+
+        try {
+            if (Integer.parseInt(Details.get(4)) <= 0) {
+                return -4; //Invalid Number of Days
+            }
+        } catch (NumberFormatException e) {
+            return -4; //Invalid Number of Days
+        }
         
         if (user == null) {
             return 0; //Invalid userID
@@ -250,6 +258,13 @@ public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ //
     //Tested and Passed
     @Override
     public synchronized Boolean editRemainingLeaves(String userID, String LeaveType, String LeaveCount) throws RemoteException {
+        try {   
+            if (Integer.parseInt(LeaveCount) < 0) {
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
         
         ItemCollection AllProfiles = ItemCollectionFactory.createItemCollection(fileTypes[0],port);
         
@@ -330,88 +345,92 @@ public class LeaveImpl extends UnicastRemoteObject implements LeaveInterface{ //
 
     //Tested and passed
     @Override
-    public synchronized List<Item> GenerateReport() throws RemoteException {
+    public synchronized List<Item> GenerateReport(String employeeID) throws RemoteException {
 
-        System.out.println("============================");
         ItemCollection users = ItemCollectionFactory.createItemCollection("User", this.port);
         ItemCollection leaves = ItemCollectionFactory.createItemCollection("LeaveApplication", this.port);
-        System.out.println("============================");
 
-        List<Item> allUsers = users.getAll();
-        List<Item> allLeaves = leaves.getAll();
+        Item user = users.getItem(employeeID);
 
-        System.out.println(allUsers);
-        System.out.println("============================");
-        System.out.println(allLeaves);
+        if (user == null)
+        {
+            return null; // Invalid employeeID
+        }
+
+        List<Item> allLeaves      = leaves.getAll();
+        List<Item> employeeLeaves = new ArrayList<>();
+
+        int total        = 0;
+        int approved     = 0;
+        int rejected     = 0;
+        int pending      = 0;
+        int approvedDays = 0;
+
+        // Filter leaves belonging to this employee
+        for (Item leave : allLeaves)
+        {
+            if (!leave.getFieldValue("UserID").equals(employeeID))
+                continue;
+
+            total++;
+            employeeLeaves.add(leave); // Collect for leave history
+
+            switch (leave.getFieldValue("Status"))
+            {
+                case "Approved":
+                    approved++;
+                    approvedDays += Integer.parseInt(leave.getFieldValue("NumberOfDays"));
+                    break;
+                case "Rejected":
+                    rejected++;
+                    break;
+                case "Pending":
+                    pending++;
+                    break;
+            }
+        }
+
+        double approvalRate = (total == 0) ? 0 : ((double) approved / total) * 100;
+
+        // Build summary Item — profile + leave stats in one block
+        List<String> summaryFields = new ArrayList<>();
+        summaryFields.add("UserID");
+        summaryFields.add("FirstName");
+        summaryFields.add("LastName");
+        summaryFields.add("Role");
+        summaryFields.add("Econtact");
+        summaryFields.add("ALUsed");
+        summaryFields.add("ALRemaining");
+        summaryFields.add("MLUsed");
+        summaryFields.add("MLRemaining");
+        summaryFields.add("TotalApplications");
+        summaryFields.add("Approved");
+        summaryFields.add("Rejected");
+        summaryFields.add("Pending");
+        summaryFields.add("TotalApprovedDays");
+        summaryFields.add("ApprovalRate");
+
+        List<String> summaryDetails = new ArrayList<>();
+        summaryDetails.add(user.getFieldValue("UserID"));
+        summaryDetails.add(user.getFieldValue("FirstName"));
+        summaryDetails.add(user.getFieldValue("LastName"));
+        summaryDetails.add(user.getFieldValue("Role"));
+        summaryDetails.add(user.getFieldValue("Econtact"));
+        summaryDetails.add(user.getFieldValue("ALUsed"));
+        summaryDetails.add(user.getFieldValue("ALRemaining"));
+        summaryDetails.add(user.getFieldValue("MLUsed"));
+        summaryDetails.add(user.getFieldValue("MLRemaining"));
+        summaryDetails.add(String.valueOf(total));
+        summaryDetails.add(String.valueOf(approved));
+        summaryDetails.add(String.valueOf(rejected));
+        summaryDetails.add(String.valueOf(pending));
+        summaryDetails.add(String.valueOf(approvedDays));
+        summaryDetails.add(String.format("%.2f%%", approvalRate));
 
         List<Item> reportList = new ArrayList<>();
+        reportList.add(new Item(summaryDetails, summaryFields, "Report")); // Index 0 = summary
+        reportList.addAll(employeeLeaves);                                  // Index 1+ = leave history
 
-        // Define report field names
-        List<String> reportFields = new ArrayList<>();
-        reportFields.add("UserID");
-        reportFields.add("FirstName");
-        reportFields.add("LastName");
-        reportFields.add("Role");
-        reportFields.add("TotalApplications");
-        reportFields.add("Approved");
-        reportFields.add("Rejected");
-        reportFields.add("Pending");
-        reportFields.add("TotalApprovedDays");
-        reportFields.add("ApprovalRate");
-
-        for (Item user : allUsers) {
-
-            String userID = user.getFieldValue("UserID");
-
-            int total = 0;
-            int approved = 0;
-            int rejected = 0;
-            int pending = 0;
-            int approvedDays = 0;
-
-            for (Item leave : allLeaves) {
-
-                if (!leave.getFieldValue("UserID").equals(userID))
-                    continue;
-
-                total++;
-
-                String status = leave.getFieldValue("Status");
-
-                switch (status) {
-                    case "Approved":
-                        approved++;
-                        approvedDays += Integer.parseInt(leave.getFieldValue("NumberOfDays"));
-                        break;
-
-                    case "Rejected":
-                        rejected++;
-                        break;
-
-                    case "Pending":
-                        pending++;
-                        break;
-                }
-            }
-
-            double approvalRate = total == 0 ? 0 : ((double) approved / total) * 100;
-
-            List<String> reportDetails = new ArrayList<>();
-            reportDetails.add(userID);
-            reportDetails.add(user.getFieldValue("FirstName"));
-            reportDetails.add(user.getFieldValue("LastName"));
-            reportDetails.add(user.getFieldValue("Role"));
-            reportDetails.add(String.valueOf(total));
-            reportDetails.add(String.valueOf(approved));
-            reportDetails.add(String.valueOf(rejected));
-            reportDetails.add(String.valueOf(pending));
-            reportDetails.add(String.valueOf(approvedDays));
-            reportDetails.add(String.format("%.2f", approvalRate));
-
-            Item reportItem = new Item(reportDetails, reportFields, "Report");
-
-            reportList.add(reportItem);
-        }
         return reportList;
     }
      
