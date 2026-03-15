@@ -7,8 +7,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yourname</groupId>
-    <artifactId>your-project</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <artifactId>HRM</artifactId>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>

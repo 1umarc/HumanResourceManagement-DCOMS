@@ -2,12 +2,12 @@
 
 set -e
 
-JAR="target/your-project-0.1.0-SNAPSHOT.jar"
+JAR="target/HRM-1.0.jar"
 PKG="nodes"
 
-REGISTRY_PORT=1099
-SERVER_PORTS=(6000 6001 6002)
-DATABASE_SERVER_PORTS=(7000)
+REGISTRY_PORT=6000
+SERVER_COUNT=1
+DATABASE_COUNT=1
 CLIENT_COUNT=1
 
 PIDS=()
@@ -34,16 +34,16 @@ PIDS+=($!)
 sleep 1
 
 echo "Starting Database Servers..."
-for PORT in "${DATABASE_SERVER_PORTS[@]}"; do
-  java -cp "$JAR" "$PKG.DatabaseNode" "$REGISTRY_PORT" "$PORT" &
+for ((i=0; i<DATABASE_COUNT; i++)); do
+  java -cp "$JAR" "$PKG.DatabaseNode" "$REGISTRY_PORT" &
   PIDS+=($!)
 done
 
 sleep 5
 
 echo "Starting servers..."
-for PORT in "${SERVER_PORTS[@]}"; do
-  java -cp "$JAR" "$PKG.ServerNode" "$REGISTRY_PORT" "$PORT" &
+for ((i=0; i<SERVER_COUNT; i++)); do
+  java -cp "$JAR" "$PKG.ServerNode" "$REGISTRY_PORT" &
   PIDS+=($!)
 done
 

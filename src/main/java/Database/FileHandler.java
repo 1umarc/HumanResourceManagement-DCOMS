@@ -114,15 +114,15 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     }
 
     @Override
-    public synchronized Boolean writeData(List<List<String>> Data) {
-        Data = this.sortData(Data);
+    public synchronized Boolean writeData(List<List<String>> Items) {
+        Items = this.sortData(Items);
         
         try {
             String FilePath = this.parseFilePath(this.FileName);
             this.openFileWriter(FilePath);
             
             String writeBuffer = this.parseData(this.fields) + "\n";
-            for (List<String> rowData : Data) {
+            for (List<String> rowData : Items) {
                writeBuffer += this.parseData(rowData) + "\n";
             }
             
@@ -138,97 +138,6 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
         }
     }
 
-    @Override
-    public synchronized Boolean appendData(List<String> Data) {
-        this.data.add(Data);
-        
-        return this.writeData(this.data);
-    }
-
-    @Override
-    public synchronized Boolean updateData(List<String> Data) {
-        int index = 0;
-        Iterator<List<String>> iter = this.data.iterator();
-
-        while (iter.hasNext()) {
-            List<String> rowData = iter.next();
-
-            if (rowData.get(0).equals(Data.get(0))) {
-                this.data.remove(index);
-                this.data.add(index, Data);
-            }
-            
-            index++;
-        }
-        
-        return this.writeData(this.data);
-    }
-
-    @Override
-    public synchronized Boolean deleteData(String ID) {
-        int index = 0;
-        Iterator<List<String>> iter = this.data.iterator();
-
-        while (iter.hasNext()) {
-            List<String> rowData = iter.next();
-
-            if (rowData.get(0).equals(ID)) {
-                this.data.remove(index);
-            }
-            
-            index++;
-        }
-        
-        return this.writeData(this.data);
-    }
-
-    @Override
-    public synchronized Boolean updateCompositeData(List<String> Data, List<String> Keys) {
-        int index = 0;
-        Iterator<List<String>> iter = this.data.iterator();
-
-        while (iter.hasNext()) {
-            List<String> rowData = iter.next();
-            int numKeysFound = 0;
-            for (String Key : Keys) {
-                if (rowData.contains(Key)) {
-                    numKeysFound++;
-                }
-
-                if (numKeysFound == Keys.size()) {
-                    this.data.remove(index);
-                    this.data.add(index, Data);
-                }
-            }
-            
-            index++;
-        }
-        
-            
-        return this.writeData(this.data);
-    }
-
-    @Override
-    public synchronized Boolean deleteCompositeData(List<String> Keys ) {
-        Iterator<List<String>> iter = this.data.iterator();
-        
-        while (iter.hasNext()) {
-            List<String> rowData = iter.next();
-            int numKeysFound = 0;
-            for (String Key : Keys) {
-                if (rowData.contains(Key)) {
-                    numKeysFound++;
-                }
-
-                if (numKeysFound == Keys.size()) {
-                    iter.remove();
-                }
-            }
-        }
-        
-        return this.writeData(this.data);
-    }
-    
     private void getFieldAndData() {
         List<List<String>> Data = new ArrayList<>();
         
@@ -267,41 +176,8 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     public synchronized List<List<String>> getData() {
         return this.data;
     }
-
-    @Override
-    public synchronized List<String> getRow(String Key) {
-        for (List<String> rowData : this.data) {
-            if (rowData.get(0).equals(Key)) {
-                return rowData;
-            }
-        }
-        
-        return null;
-    }
     
-    @Override
-    public synchronized List<String> getCompositeRow(List<String> Keys) {
-        int iterator = 0;
-        for (List<String> rowData : this.data) {
-            int numKeysFound = 0;
-            for (String Key : Keys) {
-                if (rowData.contains(Key)) {
-                    numKeysFound++;
-                }
-
-                if (numKeysFound == Keys.size()) {
-                    return rowData;
-                }
-            }
-            
-            iterator++;
-        }
-        
-        return null;
-    }
-
-    @Override
-    public synchronized List<String> getColumn(String wantedField) {
+    private synchronized List<String> getColumn(String wantedField) {
         int index = this.getFieldIndex(wantedField);
         List<String> columnData = new ArrayList<>();
         
@@ -321,7 +197,6 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
     @Override
     public synchronized List<String> getFieldName() {
         return this.fields;
-
     }
     
     private int getFieldIndex(String wantedField) {
@@ -334,59 +209,9 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
             index++;
         }
         
-        
         return -1;
     }
 
-    @Override
-    public synchronized List<List<String>> FitlerData(List<String> Fields, List<String> Values) {
-        List<List<String>> filteredData = new ArrayList<>();
-        
-        List<Integer> indexes = new ArrayList<>();
-        
-//        Creates a List of n 1s;
-        indexes.addAll(Collections.nCopies(this.size(), 1));
-        
-        
-//        If Value in the Corresponding Field and Row is Different, Then Remove
-        for (int i = 0; i < Fields.size(); i++) {
-            List<String> ColumnData = this.getColumn(Fields.get(i));
-            
-            String FieldValue = Values.get(i);
-            
-            for (int j = 0; j < ColumnData.size(); j++) {
-                if (indexes.get(j) != 0 && !ColumnData.get(j).equals(FieldValue)) {
-                    indexes.remove(j);
-                    indexes.add(j, 0);
-                }
-            } 
-        }
-        
-        
-        for (int i = 0; i < indexes.size(); i++) {
-            if (indexes.get(i) == 1) {
-                filteredData.add(this.data.get(i));
-            }
-        }
-        
-        return filteredData;
-    }
-    
-    @Override
-    public synchronized List<List<String>> FitlerData(String Fields, List<String> Values) {
-        List<List<String>> filteredData = new ArrayList<>();
-        
-        List<String> ColumnData = this.getColumn(Fields);
-
-        for (int i = 0; i < ColumnData.size(); i++) {
-            if (Values.contains(ColumnData.get(i))) {
-                filteredData.add(this.data.get(i));
-            }
-        } 
-        
-        return filteredData;
-    }
-    
     @Override
     public synchronized List<List<String>> FitlerData(String Fields, String Values) {
         List<List<String>> filteredData = new ArrayList<>();
@@ -400,9 +225,5 @@ public class FileHandler extends UnicastRemoteObject implements DatabaseInterfac
         } 
         
         return filteredData;
-    }
-    
-    public synchronized int size() {
-        return this.data.size();
     }
 }

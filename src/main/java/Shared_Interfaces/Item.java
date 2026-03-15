@@ -54,8 +54,18 @@ public class Item implements Serializable {
     public String[] getDetails() {
         return this.Details.toArray(String[]::new);
     }
+
+    public String getFieldValue(String FieldName) {
+        int index = this.Fields.indexOf(FieldName);
+        
+        if (index == -1) { // Field Name Not Found
+            return null;
+        }
+        
+        return this.Details.get(index);
+    }
     
-    public Boolean setDetails(String[] newDetails) {
+    public synchronized Boolean setDetails(String[] newDetails) {
         Boolean SameLength = newDetails.length == this.Fields.size();
         Boolean SameID = this.getID().equals(newDetails[0]);
         
@@ -67,17 +77,7 @@ public class Item implements Serializable {
         return true;
     }
     
-    public String getFieldValue(String FieldName) {
-        int index = this.Fields.indexOf(FieldName);
-        
-        if (index == -1) { // Field Name Not Found
-            return null;
-        }
-        
-        return this.Details.get(index);
-    }
-    
-    public Boolean setFieldValue(String FieldName, String Value) {
+    public synchronized Boolean setFieldValue(String FieldName, String Value) {
         int index = this.Fields.indexOf(FieldName);
         
         if (index == -1) { // Field Name Not Found

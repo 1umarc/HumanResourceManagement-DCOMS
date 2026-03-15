@@ -43,60 +43,17 @@ public class ItemCollection {
         return Output;
     }
     
-    public synchronized void UpdateFile() throws RemoteException {
+    public synchronized void UpdateFile() throws RemoteException {    
+        this.Database.setFileName(this.Type);
+
         List<List<String>> Data = new ArrayList<>(); // Turn Item Into Writable Format
         
-        this.ItemList.forEach((Item currentItem) -> {
-            Data.add(Arrays.asList(currentItem.getDetails()));
-        });
-        
-        this.Database.setFileName(this.Type);
-        
-        this.Database.writeData(Data);
-    }
-    
-    public synchronized int getCollectionSize() {
-        return this.ItemList.size();
-    }
-    
-    public synchronized Boolean CheckItemInCollection(Item ItemInstance) {
-        for (Item CurrentItem : this.ItemList) {
-            Boolean SameDetails = Arrays.equals(CurrentItem.getDetails(), ItemInstance.getDetails());
-            
-            if (SameDetails) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    public synchronized Boolean CheckItemInCollection(String[] Details) {
-        for (Item CurrentItem : this.ItemList) {
-            Boolean SameDetails = Arrays.equals(CurrentItem.getDetails(), Details);
-            
-            if (SameDetails) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    private int getItemIndex(Item ItemInstance) {
-        String ItemInstanceID = ItemInstance.getID(); // Get Item ID
-        
-        for (int i = 0; i < this.ItemList.size(); i++) {
-            String CurrentItemID = this.ItemList.get(i).getID(); // get Item ID
-            
-            Boolean SameID = CurrentItemID.equals(ItemInstanceID);
-            
-            if (SameID) { // Matches IDs
-                return i;
-            }
-        }
-        
-        return -1;
+        for (Item currentItem: this.ItemList) {
+            String[] itemDetails = currentItem.getDetails();
+            Data.add(Arrays.asList(itemDetails));
+        };
+
+        this.Database.writeData(this.ItemList);
     }
     
     private int getItemIndex(String ID) {
@@ -114,8 +71,6 @@ public class ItemCollection {
     }
     
     public synchronized Item createItem(String[] Details) throws RemoteException {
-//        Check If Data Size Matches
-
         Boolean SameSize = Details.length == this.FieldNames.size();
         Boolean ItemFound = this.getItemIndex(Details[0]) != -1;
 
@@ -131,26 +86,6 @@ public class ItemCollection {
         this.UpdateFile();
         
         return newItem;
-    }
-    
-    public synchronized Boolean removeItem(Item ItemInstance) throws RemoteException {
-        int index = this.getItemIndex(ItemInstance);
-
-        if (index == -1) {
-            return false;
-        }
-        
-        Item currentItem = this.ItemList.get(index);
-        
-//        If Item Has Any Relationship or Item has Certain Status Then No Delete
-        if (!this.CanBeDeleted(currentItem.getID())) { 
-            return false;
-        }
-        
-        this.ItemList.remove(index);
-        this.UpdateFile();
-
-        return true;
     }
     
     public synchronized Boolean removeItem(String ID) throws RemoteException {
@@ -225,10 +160,8 @@ public class ItemCollection {
     public synchronized List<Item> filter(List<String> Fields, List<String> Values) { // Field and Values Match 1 to 1 -> index 0 with index 0, etc
         List<Integer> indexes = new ArrayList<>();
         
-//        Creates a List of n 1s where n is the size of the collection
-        indexes.addAll(Collections.nCopies(this.getCollectionSize(), 1));
+        indexes.addAll(Collections.nCopies(this.ItemList.size(), 1));
         
-//        If Value in the Corresponding Field and Row is Different, Then Remove
         for (int i = 0; i < Fields.size() && i < Values.size(); i++) {
             List<String> ColumnData = this.getColumn(Fields.get(i));
             
@@ -238,8 +171,6 @@ public class ItemCollection {
                 if (indexes.get(j) == 0) { // If Index is Already Invalid then continue
                     continue;
                 }
-                
-//                Checks if The value of that row in the Corresponding Field is Equal to the Field Value
                 if (!ColumnData.get(j).equals(FieldValue)) { 
                     indexes.remove(j);
                     indexes.add(j, 0);
@@ -258,22 +189,6 @@ public class ItemCollection {
         return FilteredItemList;
     }   
     
-    public synchronized List<Item> filter(String Field, List<String> Values) {
-        List<Item> FilteredItemList = new ArrayList<>();
-        
-        List<String> ColumnData = this.getColumn(Field);
-        
-        
-        for (int i = 0; i < ColumnData.size(); i++) {
-            if (Values.contains(ColumnData.get(i))) {
-                FilteredItemList.add(this.ItemList.get(i));
-            }
-        } 
-
-        return FilteredItemList;
-    }
-    
-    
     public synchronized List<Item> filter(String Field, String Value) {
         List<Item> FilteredItemList = new ArrayList<>();
         
@@ -286,18 +201,6 @@ public class ItemCollection {
         } 
 
         return FilteredItemList;
-    }
-    
-    public synchronized List<Item> filter(Predicate<Item> lambda) {
-        List<Item> SortedList = new ArrayList<>(this.ItemList);
-        SortedList.stream().filter(lambda).collect(Collectors.toList());
-        return SortedList;
-    }
-    
-    public synchronized List<Item> getSortedItems(Comparator<Item> lambda) {
-        List<Item> SortedList = new ArrayList<>(this.ItemList);
-        SortedList.sort(lambda);
-        return SortedList;
     }
     
     public synchronized Boolean isEmpty() {
