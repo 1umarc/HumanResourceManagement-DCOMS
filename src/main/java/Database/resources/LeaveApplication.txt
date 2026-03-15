@@ -1,6 +1,9 @@
 LAID;UserID;LeaveType;ApplicationDate;StartDate;NumberOfDays;ReasonForLeave;Status;ReasonForRejection;
-A01;bob;ML;12/12/2025;18/12/2025;10;Sick;Pending;-;
-A02;ferb;ML;12/12/2025;18/12/2025;5;Sick;Rejected;Invalid Date;
-A03;ferb;ML;12/12/2025;18/12/2025;5;Sick;Pending;-;
-A04;bob;ML;14/12/2025;25/12/2025;5;Sick;Pending;-;
-A05;bob;AL;13/05/2025;15/05/2025;3;Family event;Pending;-;
+A01;bob;ML;12/12/2025;18/12/2025;10;Medical Leave;Pending;-;
+A02;ivan;AL;10/11/2025;15/11/2025;3;Family Trip;Accepted;-;
+A03;peter;AL;01/12/2025;05/12/2025;5;Vacation;Rejected;Insufficient Leave;
+A04;sam;ML;02/12/2025;03/12/2025;2;Flu;Accepted;-;
+A06;jason;ML;15/11/2025;20/11/2025;4;Surgery;Accepted;-;
+A07;kelly;AL;20/11/2025;25/11/2025;6;Holiday;Rejected;Project Deadline;
+A08;ivan;AL;22/11/2025;23/11/2025;1;Fever;Pending;-;
+A09;ivan;ML;16/03/2026;17/03/2026;4;Head Injuries;Pending;-;

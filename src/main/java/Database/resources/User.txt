@@ -1,7 +1,8 @@
 UserID;FirstName;LastName;Password;E-contact;Role;ALUsed;ALRemaining;MLUsed;MLRemaining;
-bob;bob;bob;bob;234;CEO;0;30;0;30;
-ferb;ferb;ferb;ferb;234;ew;0;30;0;30;
-ivan;ivan;ivan;ivan;234;Intern;0;30;0;30;
-peter;peter;peter;peter;234;Engineer;0;30;0;30;
-sam;sam;sam;sam;234;HRStaff;0;30;0;30;
-wow;wow;wow;wow;234;HRStaff;0;30;0;30;
+bob;Bobby;Tan;bob123;123456;CEO;0;30;0;30;
+ferb;Ferb;Lee;ferb123;345678;HRStaff;0;15;0;15;
+ivan;Ivan;Lim;ivan123;456789;Engineer;1;10;1;11;
+jason;Jason;Low;jason123;890123;HRStaff;3;12;1;14;
+kelly;Kelly;Teo;kelly123;901234;Engineer;4;8;2;10;
+peter;Peter;Wong;peter123;567890;Engineer;1;11;0;12;
+sam;Sam;Ng;sam123;678901;Intern;0;4;0;4;
