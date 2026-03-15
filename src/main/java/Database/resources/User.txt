@@ -1,6 +1,7 @@
 UserID;FirstName;LastName;Password;E-contact;Role;ALUsed;ALRemaining;MLUsed;MLRemaining;
-bob;Bobby;Tan;bob123;123456;CEO;0;30;0;30;
-ferb;Ferb;Lee;ferb123;345678;HRStaff;0;15;0;15;
+abu;Abu;Rosli;01155565778;Intern;Abu123;0;30;0;30;
+bob;Bobby;Tan;bob123;123456;CEO;3;27;2;28;
+ferb;Ferb;Lee;ferb123;345678;HRStaff;0;15;1;14;
 ivan;Ivan;Lim;ivan123;456789;Engineer;1;10;1;11;
 jason;Jason;Low;jason123;890123;HRStaff;3;12;1;14;
 kelly;Kelly;Teo;kelly123;901234;Engineer;4;8;2;10;
