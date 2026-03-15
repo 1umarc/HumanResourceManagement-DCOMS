@@ -911,7 +911,7 @@ public class ClientUI
     private void generateReportMenu() throws RemoteException 
     {
         // Fetch all profiles so user can select by index
-        List<Item> profiles = profileService.viewAllProfiles(); // RMI Call #18
+        List<Item> profiles = profileService.viewAllProfiles(); // RMI Call #17
 
         if (profiles == null || profiles.isEmpty())
         {
@@ -952,7 +952,7 @@ public class ClientUI
             System.out.println("\n  [~~~~ GENERATING REPORT FOR : " + employeeID + " ~~~~]");
             loadingBar();
 
-            List<Item> report = leaveService.GenerateReport(employeeID); // RMI Call #19
+            List<Item> report = leaveService.GenerateReport(employeeID); // RMI Call #18
 
             if (report == null || report.isEmpty())
             {
@@ -1071,8 +1071,8 @@ public class ClientUI
     // Menu 3.1: View My Profile
     private void viewMyProfileFlow() throws RemoteException
     {
-        List<String> profileDetails = profileService.viewUserProfile(currentUser); // RMI Call #18
-        List<String> leaveDetails = leaveService.viewUserLeaves(currentUser); // RMI Call #19
+        List<String> profileDetails = profileService.viewUserProfile(currentUser); // RMI Call #19
+        List<String> leaveDetails = leaveService.viewUserLeaves(currentUser); // RMI Call #20
 
         System.out.println(
              "\n+==========================================================+\n"
@@ -1100,8 +1100,8 @@ public class ClientUI
         while (menu)
         {
             // Fetching every loop for updates
-            List<String> leaveBalance = leaveService.viewUserLeaves(currentUser); // RMI Call #20
-            List<Item>   allLeaves    = leaveService.viewUserLA(currentUser); // RMI Call #21
+            List<String> leaveBalance = leaveService.viewUserLeaves(currentUser); // RMI Call #21
+            List<Item>   allLeaves    = leaveService.viewUserLA(currentUser); // RMI Call #22
 
             System.out.println
             (
@@ -1161,7 +1161,7 @@ public class ClientUI
     // Menu 3.2.1: Edit Pending Leave Applications
     private void editPendingLAFlow() throws RemoteException
     {
-        List<Item> pending = leaveService.viewUserPendingLA(currentUser); // RMI Call #22
+        List<Item> pending = leaveService.viewUserPendingLA(currentUser); // RMI Call #23
 
         if (pending == null || pending.isEmpty())
         {
@@ -1226,7 +1226,7 @@ public class ClientUI
                     case "1":
                         updateLAFlow(LAID);
  
-                        pending  = leaveService.viewUserPendingLA(currentUser); // RMI Call #23
+                        pending  = leaveService.viewUserPendingLA(currentUser); // RMI Call #24
                         manage = false;
 
                         if (pending == null || pending.isEmpty())
@@ -1239,7 +1239,7 @@ public class ClientUI
                         boolean deleted = deleteLAFlow(LAID);
                         if (deleted)
                         {
-                            pending  = leaveService.viewUserPendingLA(currentUser); // RMI Call #24
+                            pending  = leaveService.viewUserPendingLA(currentUser); // RMI Call #25
                             manage = false;
 
                             if (pending == null || pending.isEmpty()) select = false;
@@ -1289,7 +1289,7 @@ public class ClientUI
         System.out.print("  New Value for [" + field + "] : ");
         String value = scanner.nextLine().trim();
 
-        int result = leaveService.updateLA(LAID, field, value); // RMI Call #25
+        int result = leaveService.updateLA(LAID, field, value); // RMI Call #26
 
         switch (result)
         {
@@ -1367,7 +1367,7 @@ public class ClientUI
             return false;
         }
 
-        int result = leaveService.deleteLA(LAID); // RMI Call #26
+        int result = leaveService.deleteLA(LAID); // RMI Call #27
 
         switch (result)
         {
@@ -1435,7 +1435,7 @@ public class ClientUI
         details.add(numDays);    
         details.add(reason);   
 
-        int result = leaveService.applyLA(details); // RMI Call #27
+        int result = leaveService.applyLA(details); // RMI Call #28
 
         switch (result)
         {
