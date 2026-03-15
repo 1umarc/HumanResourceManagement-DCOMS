@@ -101,11 +101,11 @@ public class ClientUI
     private void loadingBar()
     {
         try {
-            System.out.print("[");
+            System.out.print(" [");
             
-            for (int i = 0; i < 50; i++) 
+            for (int i = 0; i < 60; i++) 
             {
-                Thread.sleep(40);
+                Thread.sleep(30);
                 System.out.print("=");
             }
 
@@ -161,27 +161,27 @@ public class ClientUI
     // 1. Display a profile returned by viewUserProfile
     private void displayProfileDetail(List<String> profile)
     {
-        System.out.printf("  %-14s: %s%n", "User ID",    getData(profile, 0));  // -14s = 14 spaces, n = new line
-        System.out.printf("  %-14s: %s%n", "First Name", getData(profile, 1));
-        System.out.printf("  %-14s: %s%n", "Last Name",  getData(profile, 2));
-        System.out.printf("  %-14s: %s%n", "Role",       getData(profile, 3));
-        System.out.printf("  %-14s: %s%n", "Password", hidePassword(getData(profile, 4)));
+        System.out.printf(" %-14s: %s%n", "User ID",    getData(profile, 0));  // -14s = 14 spaces, n = new line
+        System.out.printf(" %-14s: %s%n", "First Name", getData(profile, 1));
+        System.out.printf(" %-14s: %s%n", "Last Name",  getData(profile, 2));
+        System.out.printf(" %-14s: %s%n", "Role",       getData(profile, 3));
+        System.out.printf(" %-14s: %s%n", "Password", hidePassword(getData(profile, 4)));
     }
 
     // 2. Display leave balance returned by viewUserLeaves
     private void displayLeaveBalance(List<String> leaves)
     {
         System.out.println("  [~~~~ LEAVE BALANCE ~~~~]");
-        System.out.printf("  %-20s | Used : %-4s | Remaining : %s%n", "Annual Leave (AL)",  getData(leaves, 0), getData(leaves, 1));
-        System.out.printf("  %-20s | Used : %-4s | Remaining : %s%n", "Medical Leave (ML)", getData(leaves, 2), getData(leaves, 3));
+        System.out.printf(" %-20s | Used : %-4s | Remaining : %s%n", "Annual Leave (AL)",  getData(leaves, 0), getData(leaves, 1));
+        System.out.printf(" %-20s | Used : %-4s | Remaining : %s%n", "Medical Leave (ML)", getData(leaves, 2), getData(leaves, 3));
     }
 
     // 3. Display all profiles
     private void displayProfilesTable(List<Item> profiles)
     {
-        System.out.println("  +----+------------+--------------------+------------+--------+--------+");
+        System.out.println(" +----+------------+--------------------+------------+--------+--------+");
         System.out.printf("  | %-2s | %-10s | %-18s | %-10s | %-6s | %-6s |" + "%n", "#", "UserID", "Name", "Role", "AL Rem", "ML Rem");
-        System.out.println("  +----+------------+--------------------+------------+--------+--------+");
+        System.out.println(" +----+------------+--------------------+------------+--------+--------+");
 
         // Loop through all profiles
         for (int i = 0; i < profiles.size(); i++)
@@ -189,7 +189,7 @@ public class ClientUI
             Item p    = profiles.get(i); // list of profiles
             String name = cutString(p.getFieldValue("FirstName") + " " + p.getFieldValue("LastName"), 18);
 
-            System.out.printf("  | %-2d | %-10s | %-18s | %-10s | %-6s | %-6s |" + "%n",
+            System.out.printf(" | %-2d | %-10s | %-18s | %-10s | %-6s | %-6s |" + "%n",
                 i + 1,
                 cutString(p.getFieldValue("UserID"), 10),
                 name,
@@ -198,21 +198,21 @@ public class ClientUI
                 p.getFieldValue("MLRemaining")
             );
         }
-        System.out.println("  +----+------------+--------------------+------------+--------+--------+");
+        System.out.println(" +----+------------+--------------------+------------+--------+--------+");
     }
 
     // 4. Display leave applications
     private void displayLATable(List<Item> leaves)
     {
-        System.out.println("  +----+------+------------+------+------------+------+----------+");
-        System.out.printf("  | %-2s | %-4s | %-10s | %-4s | %-10s | %-4s | %-8s |" + "%n", "#", "ID", "UserID", "Type", "Start Date", "Days", "Status");
-        System.out.println("  +----+------+------------+------+------------+------+----------+");
+        System.out.println(" +----+------+------------+------+------------+------+----------+");
+        System.out.printf(" | %-2s | %-4s | %-10s | %-4s | %-10s | %-4s | %-8s |" + "%n", "#", "ID", "UserID", "Type", "Start Date", "Days", "Status");
+        System.out.println(" +----+------+------------+------+------------+------+----------+");
 
         // Loop through all leave applications
         for (int i = 0; i < leaves.size(); i++)
         {
             Item l = leaves.get(i);
-            System.out.printf("  | %-2d | %-4s | %-10s | %-4s | %-10s | %-4s | %-8s |" + "%n",
+            System.out.printf(" | %-2d | %-4s | %-10s | %-4s | %-10s | %-4s | %-8s |" + "%n",
                 i + 1,
                 cutString(l.getFieldValue("LAID"), 4),
                 cutString(l.getFieldValue("UserID"), 10),
@@ -222,7 +222,7 @@ public class ClientUI
                 cutString(l.getFieldValue("Status"), 8)
             );
         }
-        System.out.println("  +----+------+------------+------+------------+------+----------+");
+        System.out.println(" +----+------+------------+------+------------+------+----------+");
     }
 
 
@@ -245,8 +245,7 @@ public class ClientUI
         slowPrint(" Starting client session...");
         loadingBar();
 
-        System.out.println(" BHEL HRM SYSTEM STATUS : ONLINE");
-        //System.out.println(" +==========================================================+\n");
+        System.out.println("\n BHEL HRM SYSTEM STATUS : ONLINE");
 
         boolean running = true;
         while (running)
@@ -486,9 +485,9 @@ public class ClientUI
 
                 System.out.println
                 (
-                     "\n  +==========================================================+\n"
-                    + "  |                   EMPLOYEE DETAILS                       |\n"
-                    + "  +==========================================================+"
+                     "\n +==========================================================+\n"
+                    + " |                   EMPLOYEE DETAILS                       |\n"
+                    + " +==========================================================+"
                 );
                 if (profileDetails != null)
                 {
@@ -947,8 +946,8 @@ public class ClientUI
                 continue;
             }
 
+            // Get employee ID to generate report
             String employeeID = profiles.get(index - 1).getFieldValue("UserID");
-
             System.out.println("\n  [~~~~ GENERATING REPORT FOR : " + employeeID + " ~~~~]");
             loadingBar();
 
@@ -998,23 +997,23 @@ public class ClientUI
             System.out.printf("  %-20s: %s day(s)%n", "Total Days Taken", summary.getFieldValue("TotalApprovedDays"));
             System.out.printf("  %-20s: %s%n",   "Approval Rate",      summary.getFieldValue("ApprovalRate"));
 
-            // // Index 1+ are the leave history Items
-            // System.out.println(
-            //      "\n +==========================================================+\n"
-            //     + " |                     LEAVE HISTORY                        |\n"
-            //     + " +==========================================================+"
-            // );
+            // Index 1+ are the leave history Items
+            System.out.println(
+                 "\n +==========================================================+\n"
+                + " |                     LEAVE HISTORY                        |\n"
+                + " +==========================================================+"
+            );
 
-            // if (report.size() == 1) // Only the summary item, no leave records
-            // {
-            //     System.out.println("  No leave applications on record.");
-            // }
-            // else
-            // {
-            //     List<Item> leaveHistory = report.subList(1, report.size()); // Slice off the summary
-            //     displayLATable(leaveHistory);
-            //     System.out.println("  Total : " + leaveHistory.size() + " application(s) on record.");
-            // }
+            if (report.size() == 1) // Only the summary item, no leave records
+            {
+                System.out.println("  No leave applications on record.");
+            }
+            else
+            {
+                List<Item> leaveHistory = report.subList(1, report.size()); // Slice off the summary
+                displayLATable(leaveHistory);
+                System.out.println("  Total : " + leaveHistory.size() + " application(s) on record.");
+            }
 
             System.out.println(" +==========================================================+");
             waitInput();
@@ -1031,13 +1030,13 @@ public class ClientUI
         {
             System.out.println
             (
-                 "\n+==========================================================+\n"
-                + "|                  BHEL EMPLOYEE MENU                      |\n"
-                + "+==========================================================+\n"
-                + "|  1  |  My Profile                                        |\n"
-                + "|  2  |  My Leave Applications                             |\n"
-                + "|  3  |  Logout                                            |\n"
-                + "+==========================================================+"
+                 "\n +==========================================================+\n"
+                + " |                  BHEL EMPLOYEE MENU                      |\n"
+                + " +==========================================================+\n"
+                + " |  1  |  My Profile                                        |\n"
+                + " |  2  |  My Leave Applications                             |\n"
+                + " |  3  |  Logout                                            |\n"
+                + " +==========================================================+"
             );
 
             System.out.print(" |  Select option > ");
@@ -1075,9 +1074,9 @@ public class ClientUI
         List<String> leaveDetails = leaveService.viewUserLeaves(currentUser); // RMI Call #20
 
         System.out.println(
-             "\n+==========================================================+\n"
-            + "|                       MY PROFILE                         |\n"
-            + "+==========================================================+"
+             "\n +==========================================================+\n"
+            + " |                       MY PROFILE                         |\n"
+            + " +==========================================================+"
         );
 
         displayProfileDetail(profileDetails);
@@ -1088,7 +1087,7 @@ public class ClientUI
             displayLeaveBalance(leaveDetails);
         }
 
-        System.out.println("+==========================================================+");
+        System.out.println(" +==========================================================+");
         waitInput();
     }
 
@@ -1131,11 +1130,11 @@ public class ClientUI
             // Mini-menu
             System.out.println
             (
-                 "\n  +==========================================================+\n"
-                + "  |  1  |  Manage Pending  (Update / Delete)               |\n"
-                + "  |  2  |  Apply for Leave                                 |\n"
-                + "  |  3  |  Back                                            |\n"
-                + "  +==========================================================+"
+                 "\n +==========================================================+\n"
+                + " |  1  |  Manage Pending  (Update / Delete)                 |\n"
+                + " |  2  |  Apply for Leave                                   |\n"
+                + " |  3  |  Back                                              |\n"
+                + " +==========================================================+"
             );
             System.out.print(" |  Select option > ");
             String choice = scanner.nextLine().trim();
@@ -1206,17 +1205,17 @@ public class ClientUI
             {
                 System.out.println
                 (
-                     "\n   +==========================================================+\n"
-                    + "   |              LEAVE APPLICATION DETAILS                   |\n"
-                    + "   +==========================================================+"
+                     "\n +==========================================================+\n"
+                    + " |              LEAVE APPLICATION DETAILS                   |\n"
+                    + " +==========================================================+"
                 );
                 displayItemDetail(selected);
                 System.out.println(
-                     "\n  +==========================================================+\n"
-                    + "  |  1  |  Update Application                               |\n"
-                    + "  |  2  |  Delete Application                               |\n"
-                    + "  |  3  |  Back                                             |\n"
-                    + "  +==========================================================+"
+                     "\n +==========================================================+\n"
+                    + " |  1  |  Update Application                               |\n"
+                    + " |  2  |  Delete Application                               |\n"
+                    + " |  3  |  Back                                             |\n"
+                    + " +==========================================================+"
                 );
                 System.out.print(" |  Select option > ");
                 String action = scanner.nextLine().trim();

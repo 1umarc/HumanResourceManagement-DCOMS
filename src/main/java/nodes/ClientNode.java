@@ -42,7 +42,7 @@ public class ClientNode
                 System.exit(1); // Exit with 1 = failure
             }
             
-            System.out.println("✓ Successfully connected to all services\n");
+            System.out.println("Successfully connected to all services\n");
             
             // Step 3: Launch the client UI
             ClientUI clientUI = new ClientUI(authInterface, profileInterface, leaveInterface);

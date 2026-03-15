@@ -7,10 +7,7 @@ package Server.DataLogic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import Shared_Interfaces.DatabaseToServer.DatabaseInterface;
 import java.rmi.RemoteException;
 import Shared_Interfaces.Item;
@@ -139,9 +136,7 @@ public class ItemCollection {
 
     private Boolean CanBeDeleted(String ID) throws RemoteException {
         switch (this.Type) {
-            case "User" -> {
-                List<Item> ItemList = new ArrayList<>();
-                        
+            case "User" -> {                       
                 this.Database.setFileName("LeaveApplication");
                 
                 List<List<String>> ItemDetailList = this.Database.FitlerData("UserID", ID);

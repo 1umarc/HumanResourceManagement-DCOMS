@@ -44,7 +44,7 @@ Kill Processes by `Ctrl+C` or Closing the Terminal
 ├── pom.xml (Maven Structure)  
 ├── run_nodes.sh (Run Nodes in one Command)  
 ├── Client (View + View RMI Implementations (Doesnt really have RMI Implementations))  
-│   └── Luven.java  
+│   └── ClientUI.java  
 ├── Database (Model + Model RMI Implementation)  
 │   ├── FileHandler.java (Implementation of DatabaseInterface)  
 │   └── resources (Data)  
@@ -55,8 +55,8 @@ Kill Processes by `Ctrl+C` or Closing the Terminal
 │   │   ├── ItemCollectionFactory.java (Creates a Type of ItemCollection)  
 │   │   ├── ItemCollection.java (A collection/Array of Items With Utility Function)  
 │   │   └── Item.java (A Data Transfer Object That Can Hold Any Data ex. Leave Application and User)  
-│   ├── Chunkit.java  
-│   └── Meekail.java  
+│   ├── LeaveImpl.java  
+│   └── UserImpl.java  
 ├── Shared_Interfaces (Shared Interfaces or Classes - mostly for RMI)  
 │   ├── DatabaseToServer  
 │   │   ├── DatabaseInterface.java (Remote Interface Only Used in ItemCollection)  
